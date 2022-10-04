@@ -1,0 +1,141 @@
+const passport = require("passport");
+const validator = require("validator");
+const User = require("../models/User");
+const config = require('config')
+const jwt = require('jsonwebtoken')
+const { JWT_SECRET } = config;
+
+
+exports.login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Simple validation
+  const validationErrors = [];
+  if (!validator.isEmail(email))
+    validationErrors.push({ msg: "Please enter a valid email address." });
+  if (validator.isEmpty(password))
+    validationErrors.push({ msg: "Password cannot be blank." });
+
+  if (validationErrors.length) {
+    throw Error(validationErrors.join(', '))
+  }
+  email = validator.normalizeEmail(email, {
+    gmail_remove_dots: false,
+  });
+
+  try {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        throw Error(info)
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: 3600 });
+      if (!token) throw Error("Couldn't sign the token");
+
+      res.status(200).json({
+        token,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email
+        }
+        });
+    })(req, res, next);
+
+    });
+  } catch (e) {
+    res.status(400).json({ msg: e.message });
+  }
+};
+
+exports.logout = (req, res) => {
+  req.logout(() => {
+    console.log('User has logged out.')
+  })
+  req.session.destroy((err) => {
+    if (err)
+      console.log("Error : Failed to destroy the session during logout.", err);
+    req.user = null;
+    res.status(200).json({ msg: "logout successful" });
+  });
+};
+
+
+/**
+ * @route   POST api/users
+ * @desc    Register new user
+ * @access  Public
+ */
+
+exports.register = async (req, res, next) => {
+  try {
+    const validationErrors = [];
+    if (!validator.isEmail(req.body.email))
+      validationErrors.push({ msg: "Please enter a valid email address." });
+    if (!validator.isLength(req.body.password, { min: 8 }))
+      validationErrors.push({
+        msg: "Password must be at least 8 characters long",
+      });
+    if (req.body.password !== req.body.confirmPassword)
+      validationErrors.push({ msg: "Passwords do not match" });
+  
+    if (validationErrors.length) {
+      throw Error(validationErrors.join(', '))
+    }
+    req.body.email = validator.normalizeEmail(req.body.email, {
+      gmail_remove_dots: false,
+    });
+  
+  
+    const user = new User({
+      userName: req.body.userName,
+      email: req.body.email,
+      password: req.body.password,
+    });
+  
+    const savedUser = await User.findOne(
+      { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
+      (err, existingUser) => {
+        if (err) {
+          return next(err);
+        }
+        if (existingUser) {
+          return res.status(400).json({ msg: "Account with that email address or username already exists." });
+        }
+        user.save((err) => {
+          if (err) {
+            return next(err);
+          }
+          req.logIn(user, (err) => {
+            if (err) {
+              return next(err);
+            }
+          });
+        });
+      }
+    );
+    if (!savedUser) throw Error('Something went wrong saving the user');
+
+    const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
+      expiresIn: 3600
+    });
+
+    res.status(200).json({
+      token,
+      user: {
+        id: savedUser.id,
+        userName: savedUser.userName,
+        email: savedUser.email
+      }
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+};
