@@ -53,14 +53,14 @@ const Form = ({
                         {
                             type === 'number' ? 
                             <input 
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm" 
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white" 
                                 type={type} 
                                 step={step}
                                 min={min}
                                 {...register("data")}
                             />: 
                             <input 
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                                 type={type}
                                 {...register("data")}
                             />

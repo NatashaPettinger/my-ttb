@@ -48,7 +48,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                           {
                               entry.type === 'number' ? 
                               (<input 
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full max-w-xs bg-white" 
+                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full max-w-s bg-white" 
                                   type={entry.type} 
                                   step={entry.step}
                                   defaultValue={entry.default? entry.default: null}
@@ -56,7 +56,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                               />): entry.type === 'select' ? 
                               (
                                 <select 
-                                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm sm:text-sm select select-bordered w-full max-w-xs bg-white" 
+                                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm sm:text-sm select select-bordered w-full max-w-s bg-white" 
                                   {...register(entry.dbKey)}
                                   defaultValue={entry.default? entry.default: null}>
                                   {entry.select.map(val => (
@@ -65,7 +65,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                                 </select>
                               ):
                               (<input 
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full max-w-xs bg-white"
+                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full max-w-s bg-white"
                                   type={entry.type}
                                   defaultValue={entry.default? entry.default: null}
                                   {...register(entry.dbKey)}
@@ -76,7 +76,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                       {checklist? 
                       <div className="col-span-6 sm:col-span-3">
                         {checklist.map(x => (
-                          <div className="form-control w-full max-w-xs ">
+                          <div className="form-control w-full max-w-s ">
                           <label className="cursor-pointer label">
                               <span className="label-text text-base-900">Spirit distilled on {new Date(x.distillData.distillDate).toDateString()}</span>
                               <input type="checkbox" className="checkbox checkbox-accent" {...register(`${x._id}`)}/>
