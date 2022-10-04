@@ -7,9 +7,9 @@
 <h3 align="center">myTTB</h3>
 
   <p align="center">
-    Frontend software to help small distilleries manage inventory, record manufacturing data, optimize yields, and fill out federal reporting paperwork.
+    Software to help small distilleries manage inventory, record manufacturing data, optimize yields, and fill out federal reporting paperwork.
     <br />
-    <a href="https://github.com/natashapettinger/myttb-client/wiki/user-flow"><strong>User Flow in Wiki »</strong></a>
+    <a href="https://github.com/natashapettinger/myttb/wiki/user-flow"><strong>User Flow in Wiki »</strong></a>
     <br />
     <br />
     <a href="https://github.com/natashapettinger/myttb-client">View Demo</a>
@@ -17,8 +17,6 @@
     <a href="https://github.com/natashapettinger/myttb-client/issues">Report Bug</a>
     ·
     <a href="https://github.com/natashapettinger/myttb-client/issues">Request Feature</a>
-    ·
-    <a href="https://github.com/natashapettinger/myttb-server/">Backend Repo</a>
   </p>
 </div>
 
@@ -87,6 +85,7 @@ To avoid signing up, you may log in with the following credentials:
 - Email: WeLikeWhiskey@gmail.com
 - Password: drinkwhiskey!1234
 ```
+Demo is currently offline.
 Not all functionality is available in the demo. All pages will be viewable, but form submissions will not lead to changes in the database.
 
 
@@ -164,9 +163,7 @@ MIDDLE WARE for AUTH.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
