@@ -56,7 +56,7 @@
 
 ## About the Project
 
-Keeping track of your spirits manufacturing is a lot of work! This is the backend of a web app that records the data on your 
+Keeping track of your spirits manufacturing is a lot of work! This is a fullstack web app that records the data on your 
 * 🌾 raw materials inventories
 * 🛁 ferments
 * 🥃 distillations
@@ -65,7 +65,7 @@ Keeping track of your spirits manufacturing is a lot of work! This is the backen
 * and more 
 
 
-that are necessary to make filling out your monthly TTB reports a breeze 🍃. Built for distilleries who are just starting out and cannot afford the $400+ per month of subscription of popular paid solutions. Combine this with the React-based back end found [here](https://github.com/NatashaPettinger/myttb-server) or build your own!
+that are necessary to make filling out your monthly TTB reports a breeze 🍃. Built for distilleries who are just starting out and cannot afford to subscribe to the popular paid solutions.
 
 ### Tech Stack
 
@@ -129,18 +129,13 @@ You must have node installed in order to run the back end.
     npm install
   ```
 
-3. If using the associated back-end, clone the [server repo](https://github.com/NatashaPettinger/myttb-server).
-  ```bash
-    git clone https://github.com/natashapettinger/myttb-server.git
-  ```
-
-4. Navigate to the project server directory and install dependencies
+3. Navigate to the project server directory and install dependencies
   ```bash
     cd ../server
     npm install
   ```
 
-5. Make sure you have your [environment variables](#environment-variables) saved in your `.env` file.
+5. Make sure you have your [environment variables](#environment-variables) saved in your `.env` file in the server/config directory.
 
 6. Start the client and server
 
@@ -161,9 +156,9 @@ You must have node installed in order to run the back end.
 
 ### Environment Variables
 
-To run this project, you will need to add the following environment variables to your `.env` file in `/config/.env`
+To run this project, you will need to add the following environment variables to your `.env` file in `server/config/.env`
 
-`PORT: <port>` (can be any port, ex: 3000, but must be different than the port that the backend is set to)
+`PORT: <port>` (the frontend is set to fetch from http://localhost:8000/api, and setting this to 8000 will not require any changes in the front end if running locally)
 
 MIDDLE WARE for AUTH.
 
@@ -188,21 +183,21 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [ ] Add in toolbox w/ proof calculator
 - [ ] Raw Materials Page:
     - [x] ~~Edit capabilities for raw materials~~
-    - [ ] Fix forms to include ['yeast', 'grain', 'fruit', 'cane-product', 'cleaning product', 'nutrient', 'enzyme', 'packaging supply'] in the dropdown for material type.
+    - [x] ~~Fix forms to include ['yeast', 'grain', 'fruit', 'cane-product', 'cleaning product', 'nutrient', 'enzyme', 'packaging supply'] in the dropdown for material type.~~
     - [ ] Add validation that if the type is grain, fruit, or cane-product, UOM must be in lbs or gal.
     - [ ] Bulk data upload for raw materials so you can receive full order at once
 - [ ] Production Page:
     - [ ] Yield analysis
-    - [ ] Edit capabilities for ferment log
+    - [x] ~~Edit capabilities for ferment log~~
     - [ ] Edit capabilities for mash steps 
     - [ ] Add analysis for mash steps - heating, cooling, hold at temp durations
     - [ ] Bulk data upload for production
     - [ ] Add form that allows for transfer of spirits from storage to production for redistillation
-    - [ ] Add form that allows for transfer of spirits out of production for (select) 1. use in research & testing, 2. transfer to another bonded facility, & reasons 1-8 on production operations form.
-    - [ ] Add form that allows for transfer of spirits from storage to processing, keeping intact the ferment data.
+    - [x] ~~Add form that allows for transfer of spirits out of production for (select) 1. use in research & testing, 2. transfer to another bonded facility, & reasons 1-8 on production operations form.~~
+    - [x] ~~Add form that allows for transfer of spirits from storage to processing, keeping intact the ferment data.~~
 - [ ] Warehousing Page:
-    - [ ] Edit capabilities for warehouse tanks
-    - [ ] Transfer out of storage account form (keep logs of this)
+    - [x] ~~Edit capabilities for warehouse tanks~~
+    - [x] ~~Transfer out of storage account form (keep logs of this)~~
     - [ ] Make summary at top of page: proof gallons in storage, proof gallons in tanks, proof gallons in new coop, proof gallons in used coop.
 - [ ] Processing Page:
     - [ ] Add form fields that give the spirit type (valid entries in processing operations form PART IV), 
@@ -210,17 +205,17 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [ ] Add cost analysis in to processing
 - [ ] TTB Reporting
     - [ ] Frontend for production operations form
-        - [ ] Operations form table
-        - [ ] List of available months
-        - [ ] Process month form
+        - [x] ~~Operations form table~~
+        - [x] ~~List of available months~~
+        - [x] ~~Process month form~~
     - [ ] Frontend for warehousing operations form
-        - [ ] Operations form table
-        - [ ] List of available months
-        - [ ] Process month form
+        - [x] ~~Operations form table~~
+        - [x] ~~List of available months~~
+        - [x] ~~Process month form~~
     - [ ] Frontend for processing operations form
         - [ ] Operations form table
-        - [ ] List of available months
-        - [ ] Process month form
+        - [x] ~~List of available months~~
+        - [x] ~~Process month form~~
     - [ ] Lowest priority: Frontend for processing (denaturing) operations form
         - [ ] Operations form table
         - [ ] List of available months
@@ -232,7 +227,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [ ] Fix styling
     - [ ] Add cleaning schedule/process page
     - [ ] Add finished goods page that tracks how much of each batch is left, where each batch goes, etc.
-    - [ ] Make footer
+    - [x] ~~Make footer~~
 
 See the [open issues](https://github.com/natashapettinger/myttb-client/issues) for a full list of proposed features (and known issues).
 
@@ -262,16 +257,6 @@ Don't forget to give the project a star! Thanks again!
 5. Open a Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTACT -->

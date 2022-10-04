@@ -33,7 +33,7 @@ const Warehousing = () => {
     <div>
       <NavBar/>
       <div className="flex flex-col w-full border-opacity-50">
-        <div className="grid card bg-base-300 p-5 overflow-y-scroll overflow-x-scroll rounded-none max-h-screen max-w-screen">
+        <div className="grid card bg-base-300 p-5 overflow-y-scroll overflow-x-scroll rounded-none">
           <Tabs tabSize="tab-lg">
             <div label="Warehousing">
               <WarehousingTable 
@@ -49,8 +49,8 @@ const Warehousing = () => {
           </Tabs>
       </div> 
       </div>
-    </div>
     <Footer/>
+    </div>
     </>
   )
 }

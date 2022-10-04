@@ -27,7 +27,7 @@ const TTB = () => {
         <>
           <NavBar/>
           <div className="flex flex-col w-full border-opacity-50 bg-base-300">
-            <div className="grid card p-5 overflow-y-scroll overflow-x-scroll rounded-none max-h-screen max-w-screen">
+            <div className="grid card p-5 overflow-y-scroll overflow-x-scroll rounded-none">
             <label htmlFor="processReportsModal" className="btn modal-button">Generate New Reports</label>
 
             <ProcessReports reloadData={getData} modalId="processReportsModal"/>
