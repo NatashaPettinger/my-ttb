@@ -1,7 +1,7 @@
 <br />
 <div align="center">
-  <a href="https://github.com/natashapettinger/myttb-client">
-    <img src="src/logo.png" alt="Logo" width="180" height="180">
+  <a href="https://github.com/natashapettinger/myttb">
+    <img src="client/logo.png" alt="Logo" width="180" height="180">
   </a>
 
 <h3 align="center">myTTB</h3>
@@ -72,8 +72,6 @@ that are necessary to make filling out your monthly TTB reports a breeze 🍃. B
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Client:
-* [![React][React.js]][React-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/> </a> <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> </a> </p>
 
 
@@ -102,8 +100,6 @@ Not all functionality is available in the demo. All pages will be viewable, but 
 
 <!-- GETTING STARTED -->
 ## Getting Started
-<details>
-  <summary>Getting Started<summary>
 
 To get a local copy up and running, follow these simple steps.
 
@@ -229,7 +225,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [ ] Add finished goods page that tracks how much of each batch is left, where each batch goes, etc.
     - [x] ~~Make footer~~
 
-See the [open issues](https://github.com/natashapettinger/myttb-client/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/natashapettinger/myttb/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -277,9 +273,3 @@ Project Link: [https://github.com/natashapettinger/myttb-client](https://github.
 ## Legal
 
 This software is meant to make federal reporting easier, but is not meant to be a complete substitute for alcohol tracking and reporting. You are responsible for ensuring accuracy in your TTB reports. We take no responsibly for inaccurate reporting that may arise through the use of this software. 
-
-
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
