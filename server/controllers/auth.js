@@ -13,7 +13,7 @@ const { jwtSecret } = config;
  */
 
 const login = async (req, res) => {
-  
+
   const { email, password } = req.body;
 
   // Simple validation
@@ -25,14 +25,14 @@ const login = async (req, res) => {
     // Check for existing user
     const user = await User.findOne({ email });
     if (!user) throw Error('User does not exist');
-    console.log(1)
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw Error('Invalid credentials');
-    console.log(2)
+
     const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1h' });
 
     if (!token) throw Error('Couldnt sign the token');
-    console.log(3)
+    
     res.status(200).json({
       token,
       user: {

@@ -13,9 +13,9 @@ import useAuth from './features/api/useAuth'
 function App() {
 
   function RequireAuth({ children }) {
-    const { authed } = useAuth();
+    const authed = localStorage.getItem('user');
 
-    return authed === true ? children : <Navigate to="/" replace />;
+    return authed ? children : <Navigate to="/" replace />;
   }
 
   return (

@@ -7,13 +7,13 @@ export default function useAuth() {
 
   return {
     authed,
-    login() {
+    loginAuth() {
       return new Promise((res) => {
         setAuthed(true);
         res();
       });
     },
-    logout() {
+    logoutAuth() {
       return new Promise((res) => {
         setAuthed(false);
         res();
