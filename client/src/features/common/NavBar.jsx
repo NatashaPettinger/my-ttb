@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuth from "../api/useAuth";
 import api from '../api';
 
 
@@ -14,10 +15,13 @@ const navigation = [
 
 
 const NavBar = () => {
+
+    const { authed, logout } = useAuth();
     const navigate = useNavigate();
 
     const logOut = async () => {
         await api.logout();
+        logout();
         navigate('/', {replace: true})
     }
 

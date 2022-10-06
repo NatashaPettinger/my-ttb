@@ -14,9 +14,12 @@ const production = require('./routes/production')
 const warehousing = require('./routes/warehousing') 
 const processing = require('./routes/processing')
 const ttb = require('./routes/ttb')
-//const main = require('./routes/main')
+const main = require('./routes/main')
 
 
+
+
+// Connect to database
 dbConnect();
 
 
@@ -31,7 +34,7 @@ app.use('/api/production', production)
 app.use('/api/warehousing', warehousing)
 app.use('/api/processing', processing)
 app.use('/api/ttb', ttb)
-//app.use('/api/', main)
+app.use('/api/', main)
 
 
 

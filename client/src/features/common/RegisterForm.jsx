@@ -10,9 +10,14 @@ const Register = () => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = async (data, e) => {
-        await api.register(data);
-        e.target.reset();
-        navigate('/raw-materials')
+        try {
+            console.log(data)
+            await api.signup(data);
+            e.target.reset();
+            //navigate('/raw-materials')
+        } catch (error) {
+            console.error(error.message)
+        }
     };
 
 
@@ -25,14 +30,14 @@ const Register = () => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mt-3 mb-3">
                         <label 
-                            htmlFor="userName"
+                            htmlFor="name"
                             className="block text-sm font-medium text-white">
                             Name
                         </label>
                         <input 
                             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full bg-white mt-2"
                             type="text"
-                            {...register("userName")}/>
+                            {...register("name")}/>
                         </div>
                         <div className="mt-3 mb-3">
                         <label 
@@ -53,8 +58,19 @@ const Register = () => {
                         </label>
                         <input 
                             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full bg-white mt-2"
-                            type="text"
+                            type="password"
                             {...register("password")}/>
+                        </div>
+                        <div className="mt-3 mb-3">
+                        <label 
+                            htmlFor="confirmPassword"
+                            className="block text-sm font-medium text-white">
+                            Confirm Password
+                        </label>
+                        <input 
+                            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full bg-white mt-2"
+                            type="password"
+                            {...register("confirmPassword")}/>
                         </div>
                         <div className="mt-8 mb-3">
                         <input className="btn block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm" type="submit" value="Register" />

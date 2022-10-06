@@ -3,7 +3,7 @@ const config = require('config');
 
 const { JWT_SECRET } = config;
 
-function auth(req, res, next) {s
+function auth(req, res, next) {
   const token = req.header('x-auth-token');
 
   // Check for token

@@ -10,7 +10,7 @@ const Login = () => {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = async (data, e) => {
-        await api.login(data);
+        const res = await api.login(data);
         e.target.reset();
         navigate('/raw-materials')
     };
@@ -42,7 +42,7 @@ const Login = () => {
                         </label>
                         <input 
                             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full bg-white mt-2"
-                            type="text"
+                            type="password"
                             {...register("password")}/>
                         </div>
                         <div className="mt-8 mb-3">

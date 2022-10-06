@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../api'
 //import logo from '../logo-dark.png'
 //import { Fragment } from 'react'
 import { Popover, /* Transition */ } from '@headlessui/react'
@@ -8,6 +10,25 @@ import { Popover, /* Transition */ } from '@headlessui/react'
 const navigation = []
 
 export default function HomeHeader() {
+  //const [showPrivateContent, setShowPrivateContent] = useState(false);
+
+  const [showLogout, setShowLogout] = useState(false);
+
+  useEffect(() => {
+    const user = api.getCurrentUser();
+
+    if (user) {
+      setShowLogout(true);
+    }
+  }, []);
+
+  const navigate = useNavigate();
+
+  const logOut = async () => {
+      await api.logout();
+      navigate('/', {replace: true})
+  }
+
     return (
         <>
             <Popover>
@@ -33,6 +54,10 @@ export default function HomeHeader() {
                 </div>
               </nav>
             </div>
+            {showLogout &&
+            <div className="navbar-end">
+                <span className="btn" onClick={logOut}>Logout</span>
+            </div>}
 
            {/*  <Transition
               as={Fragment}

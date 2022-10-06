@@ -1,17 +1,34 @@
-import axios from 'axios'
+import axios from 'axios';
+import authHeader from "./authHeader";
+import useAuth from './useAuth';
+
+const { loginAuth, logoutAuth } = useAuth;
 
 const api = axios.create({
     baseURL: 'http://localhost:8000/api',
 })
 
 // Auth requests
-export const login = payload => api.post('/login', payload)
-export const register = payload => api.post('/register', payload)
-export const logout = () => api.get('/logout')
+export const login = async (payload) => {
+    const res = await api.post('/login', payload);
+    console.log(res.data.token)
+    if (res.data.token) {
+        localStorage.setItem("user", JSON.stringify(res.data.token));
+        loginAuth();
+    }
+    return res.data.token;
+}
+export const signup = payload => api.post('/signup', payload);
+export const logout = async() => {
+    await api.get('/logout');
+    localStorage.removeItem('user');
+    logoutAuth();
+}
+export const getCurrentUser = () => JSON.parse(localStorage.getItem("user"));
 
 // Raw materials requests
-export const getRawMaterials = () => api.get('/rawMaterials');
-export const receiveRawMaterials = payload => api.patch('/rawMaterials', payload);
+export const getRawMaterials = () => api.get('/rawMaterials',  { headers: authHeader() });
+export const receiveRawMaterials = payload => api.patch('/rawMaterials', payload,  { headers: authHeader() });
 export const adjustQuantityOnHand = payload => api.patch('/rawMaterials/quantityAdjust', payload);
 export const editRawMaterials = payload => api.patch('/rawMaterials/edit', payload);
 export const editQuantityAdjust = payload => api.patch('/rawMaterials/editQuantityAdjust', payload)
@@ -52,8 +69,9 @@ export const getTTBReports = () => api.get('/ttb')
 
 const apis = {
     login,
-    register,
+    signup,
     logout,
+    getCurrentUser,
     //rawMaterials requests
     getRawMaterials,
     receiveRawMaterials,
