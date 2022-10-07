@@ -1,12 +1,14 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import api from '../api'
+import useAuth from '../api/useAuth'
 
 
 const FormElement = ({ row, stillKey, label, type, step = 0.1, min = 0, select, reloadData }) => {
     
 
     const { register, handleSubmit, reset } = useForm();
+    const { token } = useAuth();
 
     const id = row._id;
 
@@ -14,7 +16,7 @@ const FormElement = ({ row, stillKey, label, type, step = 0.1, min = 0, select, 
     const onSubmit = async (data, e) => {
         const payload = {id, stillKey, data, label, type};
         console.log(payload)
-        await api.addStillDataPoint(payload);
+        await api.addStillDataPoint(payload, token);
         reloadData();
         e.target.reset();
     };

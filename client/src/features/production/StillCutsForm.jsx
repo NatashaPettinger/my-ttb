@@ -1,12 +1,14 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import api from '../api'
+import useAuth from '../api/useAuth'
 
 
 const StillCutsFormEnd = ({ row, stillKey, label, reloadData }) => {
     
 
     const { register, handleSubmit, reset } = useForm();
+    const { token } = useAuth();
 
     const id = row._id;
     const distillData = (!row.distillData? {}: row.distillData[stillKey]?? {} ); 
@@ -14,7 +16,7 @@ const StillCutsFormEnd = ({ row, stillKey, label, reloadData }) => {
     const onSubmit = async (data, e) => {
         const payload = {id, stillKey, data, label};
         console.log(payload)
-        await api.stillCutStarts(payload);
+        await api.stillCutStarts(payload, token);
         reloadData();
         e.target.reset();
     };

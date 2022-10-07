@@ -33,16 +33,16 @@ export const editMaterialsLog = (payload, token) => api.patch('/rawMaterials/edi
 
 // Production requests
 export const getFerments = token => api.get('/production', { headers: authHeader(token) });
-export const createMash = payload => api.post('/production', payload);
-export const addIngredient = payload => api.patch('/production/addIngredient', payload);
-export const setFermentTank = payload => api.patch('production/setFermentTank', payload);
-export const addFermentData = payload => api.patch('production/addFermentData', payload);
-export const editFermentLog = payload => api.patch('production/editFermentLog', payload);
-export const stillInitialize = payload => api.patch('production/stillInitialize', payload);
-export const addStillDataPoint = payload => api.patch('production/addStillDataPoint', payload);
-export const stillMashData = payload => api.patch('production/stillMashData', payload);
-export const stillCutStarts = payload => api.patch('production/stillCutStarts', payload);
-export const productionTransferLog = payload => api.post('production/productionTransferLog', payload);
+export const createMash = (payload, token) => api.post('/production', payload, { headers: authHeader(token) });
+export const addIngredient = (payload, token) => api.patch('/production/addIngredient', payload, { headers: authHeader(token) });
+export const setFermentTank = (payload, token) => api.patch('production/setFermentTank', payload, { headers: authHeader(token) });
+export const addFermentData = (payload, token) => api.patch('production/addFermentData', payload, { headers: authHeader(token) });
+export const editFermentLog = (payload, token) => api.patch('production/editFermentLog', payload, { headers: authHeader(token) });
+export const stillInitialize = (payload, token) => api.patch('production/stillInitialize', payload, { headers: authHeader(token) });
+export const addStillDataPoint = (payload, token) => api.patch('production/addStillDataPoint', payload, { headers: authHeader(token) });
+export const stillMashData = (payload, token) => api.patch('production/stillMashData', payload, { headers: authHeader(token) });
+export const stillCutStarts = (payload, token) => api.patch('production/stillCutStarts', payload, { headers: authHeader(token) });
+export const productionTransferLog = (payload, token) => api.post('production/productionTransferLog', payload, { headers: authHeader(token) });
 
 // Warehousing requests
 export const getTanks = token => api.get('/warehousing', { headers: authHeader(token) });
