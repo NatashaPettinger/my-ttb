@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import { ProcessingTable, NewBatchForm, ProcessingTransferForm } from '.'
 import { Footer, NavBar, Tabs } from '../common'
+import useAuth from '../api/useAuth';
 
 
 const Processing = () => {
@@ -9,6 +10,7 @@ const Processing = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { token } = useAuth();
 
   useEffect(() => {
     getData();
@@ -16,7 +18,7 @@ const Processing = () => {
 
   const getData = async () => {
     try {
-      const res = await api.getProcessing()
+      const res = await api.getProcessing(token)
       console.log(res)
       setData(res.data.data);
       setLoading(false);

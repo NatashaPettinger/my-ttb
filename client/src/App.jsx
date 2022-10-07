@@ -36,16 +36,35 @@ function App() {
               </ProtectedRoute> 
             } 
           />
-          <Route path="/production" 
+          <Route 
+            path="/production" 
             element={ 
               <ProtectedRoute>
                 <Production/> 
               </ProtectedRoute> 
             }
           />
-          <Route path="/warehousing" element={ <Storage/> } />
-          <Route path="/processing" element={ <Processing/> } />
-          <Route path="/ttb" element={ <TTB/> } />
+          <Route 
+            path="/warehousing" 
+            element={ 
+              <ProtectedRoute>
+                <Storage/>
+              </ProtectedRoute> 
+            }/>
+          <Route 
+            path="/processing" 
+            element={
+              <ProtectedRoute>
+                <Processing/>
+              </ProtectedRoute> 
+            }/>
+          <Route 
+            path="/ttb" 
+            element={
+              <ProtectedRoute>
+                <TTB/>
+              </ProtectedRoute> 
+            }/>
         </Routes>
       </AuthProvider>
       </Router>

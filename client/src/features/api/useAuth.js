@@ -18,10 +18,11 @@ export function AuthProvider ({ children }){
     const [tokenExpirationDate, setTokenExpirationDate] = React.useState();
 
     const handleAuthCheck = storedData => {
+        console.log(location)
         setToken(storedData.token);
         setTokenExpirationDate(storedData.expirationTime);
-        const origin = location.state?.from?.pathname || '/raw-materials';
-        navigate(origin);
+        const desination = location.pathname;
+        navigate(desination);
     }
 
     const handleLogin = async (payload) => {
@@ -39,8 +40,7 @@ export function AuthProvider ({ children }){
             })
         );
 
-        const origin = location.state?.from?.pathname || '/raw-materials';
-        navigate(origin);
+        navigate('/raw-materials');
     };
 
     const handleLogout = () => {

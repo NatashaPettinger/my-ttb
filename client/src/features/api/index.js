@@ -42,26 +42,26 @@ export const stillInitialize = payload => api.patch('production/stillInitialize'
 export const addStillDataPoint = payload => api.patch('production/addStillDataPoint', payload);
 export const stillMashData = payload => api.patch('production/stillMashData', payload);
 export const stillCutStarts = payload => api.patch('production/stillCutStarts', payload);
-export const productionTransferLog = payload => api.post('production/productionTransferLog', payload)
+export const productionTransferLog = payload => api.post('production/productionTransferLog', payload);
 
 // Warehousing requests
-export const getTanks = () => api.get('/warehousing')
-export const createTank = payload => api.post('/warehousing', payload) // for dealing with TIBs
-export const setProductionTank = payload => api.post('/warehousing/setProductionTank', payload)
-export const transferFromProduction = payload => api.patch('/warehousing/transferFromProduction', payload)
-export const updateTank= payload => api.patch('/warehousing/updateTank', payload)
-export const updateFill= payload => api.patch('/warehousing/updateFill', payload)
-export const transferToNewTank= payload => api.patch('/warehousing/existing-to-new', payload)
-export const transferToExistingTank= payload => api.patch('/warehousing/existing-to-existing', payload)
-export const transferOutOfStorage = payload => api.patch('/warehousing/transferOutOfStorage', payload)
+export const getTanks = token => api.get('/warehousing', { headers: authHeader(token) });
+export const createTank = payload => api.post('/warehousing', payload); // for dealing with TIBs
+export const setProductionTank = payload => api.post('/warehousing/setProductionTank', payload);
+export const transferFromProduction = payload => api.patch('/warehousing/transferFromProduction', payload);
+export const updateTank= payload => api.patch('/warehousing/updateTank', payload);
+export const updateFill= payload => api.patch('/warehousing/updateFill', payload);
+export const transferToNewTank= payload => api.patch('/warehousing/existing-to-new', payload);
+export const transferToExistingTank= payload => api.patch('/warehousing/existing-to-existing', payload);
+export const transferOutOfStorage = payload => api.patch('/warehousing/transferOutOfStorage', payload);
 
 // Processing requests
-export const getProcessing = () => api.get('/processing')
+export const getProcessing = token => api.get('/processing', { headers: authHeader(token) })
 export const processNewBatch = payload => api.post('/processing', payload)
 
 //TTB requests
-export const processTTBReports = payload => api.post('/ttb', payload)
-export const getTTBReports = () => api.get('/ttb')
+export const processTTBReports = (payload, token) => api.post('/ttb', payload, { headers: authHeader(token) })
+export const getTTBReports = token => api.get('/ttb', { headers: authHeader(token) })
 
 
 const apis = {

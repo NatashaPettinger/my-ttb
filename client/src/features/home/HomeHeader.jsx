@@ -14,6 +14,10 @@ export default function HomeHeader() {
   //const [showPrivateContent, setShowPrivateContent] = useState(false);
 
   const { token, onLogout } = useAuth();
+  const handleLogout = e => {
+    e.preventDefault();
+    onLogout();
+  }
 
     return (
         <>
@@ -37,7 +41,7 @@ export default function HomeHeader() {
                     </a>
                   ))}
                   {!!token ? 
-                    <label onClick={onLogout} className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Logout</label>
+                    <label onClick={handleLogout} className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Logout</label>
                     :<label htmlFor="loginModal" className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Log in</label>
                   }
                 </div>
