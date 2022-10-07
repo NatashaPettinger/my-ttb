@@ -1,17 +1,19 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import api from '../api'
+import useAuth from '../api/useAuth';
 
 
 const EditLogForm = ({ row, reloadData, id }) => {
     const { register, handleSubmit, reset } = useForm();
+    const { token } = useAuth();
     const onSubmit = async (data, e) => {
         const payload = {
             editId: row._id,
             data: data,
             id: id,
         }
-        await api.editQuantityAdjust(payload);
+        await api.editQuantityAdjust(payload, token);
         reloadData();
         e.target.reset();
     };

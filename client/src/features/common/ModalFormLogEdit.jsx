@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import api from '../api';
+import useAuth from '../api/useAuth';
 
 const Form = ({ 
     formAction,
@@ -18,13 +19,14 @@ const Form = ({
     
 
     const { register, handleSubmit } = useForm();
+    const { token } = useAuth();
 
     const editId = logEntry._id;
 
     const onSubmit = async (data, e) => {
         const payload = {parentId, editId, entryKey, logId, data};
         console.log(payload)
-        await api[formAction](payload);
+        await api[formAction](payload, token);
         reloadData();
         e.target.reset();
         closeModal();
@@ -53,14 +55,14 @@ const Form = ({
                         {
                             type === 'number' ? 
                             <input 
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm" 
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white" 
                                 type={type} 
                                 step={step}
                                 min={min}
                                 {...register("data")}
                             />: 
                             <input 
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                                 type={type}
                                 {...register("data")}
                             />

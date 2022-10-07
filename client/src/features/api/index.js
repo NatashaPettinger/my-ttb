@@ -24,12 +24,12 @@ export const logout = async() => {
 export const getCurrentUser = () => JSON.parse(localStorage.getItem("user"));
 
 // Raw materials requests
-export const getRawMaterials = token => api.get('/rawMaterials',  { headers: authHeader(token) });
-export const receiveRawMaterials = (payload, token) => api.patch('/rawMaterials', payload,  { headers: authHeader(token) });
-export const adjustQuantityOnHand = payload => api.patch('/rawMaterials/quantityAdjust', payload);
-export const editRawMaterials = payload => api.patch('/rawMaterials/edit', payload);
-export const editQuantityAdjust = payload => api.patch('/rawMaterials/editQuantityAdjust', payload)
-export const editMaterialsLog = payload => api.patch('/rawMaterials/editMaterialsLog', payload)
+export const getRawMaterials = token => api.get('/rawMaterials', { headers: authHeader(token) });
+export const receiveRawMaterials = (payload, token) => api.patch('/rawMaterials', payload, { headers: authHeader(token) });
+export const adjustQuantityOnHand = (payload, token) => api.patch('/rawMaterials/quantityAdjust', payload, { headers: authHeader(token) });
+export const editRawMaterials = (payload, token) => api.patch('/rawMaterials/edit', payload, { headers: authHeader(token) });
+export const editQuantityAdjust = (payload, token) => api.patch('/rawMaterials/editQuantityAdjust', payload, { headers: authHeader(token) })
+export const editMaterialsLog = (payload, token) => api.patch('/rawMaterials/editMaterialsLog', payload, { headers: authHeader(token) })
 
 // Production requests
 export const getFerments = token => api.get('/production', { headers: authHeader(token) });

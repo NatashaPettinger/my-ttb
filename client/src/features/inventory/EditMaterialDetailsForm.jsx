@@ -1,10 +1,12 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import api from '../api'
+import useAuth from '../api/useAuth';
 
 
 const EditMaterialDetailsForm = ({ row, reloadData }) => {
     const { register, handleSubmit, reset } = useForm();
+    const { token } = useAuth();
     // or you can set up the defaultValues at useForm
     // const { register, handleSubmit } = useForm({
     //   defaultValues,
@@ -14,8 +16,7 @@ const EditMaterialDetailsForm = ({ row, reloadData }) => {
             id: row._id,
             data: data,
         }
-        console.log(payload)
-        await api.editRawMaterials(payload)
+        await api.editRawMaterials(payload, token)
         reloadData();
         e.target.reset();
     };
