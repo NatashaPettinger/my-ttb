@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import { Footer, NavBar, Tabs } from '../common'
 import  { AddMaterialForm, RawMaterialsTable } from '.'
+import useAuth from '../api/useAuth';
 
 function RawMaterialss() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const { token } = useAuth();
   
     useEffect(() => {
         getData();
@@ -13,7 +15,7 @@ function RawMaterialss() {
   
     const getData = async () => {
         try {
-            const res = await api.getRawMaterials();
+            const res = await api.getRawMaterials(token);
             console.log(res.data)
             setData(res.data.data);
             setLoading(false);

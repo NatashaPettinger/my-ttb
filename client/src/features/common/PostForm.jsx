@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import api from '../api'
+import useAuth from '../api/useAuth';
 
 
 //generic label & input component that takes an entry type, default value, label, dbModelKey
@@ -15,11 +16,11 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
     
     const { register, handleSubmit, reset } = useForm();
 
-
+    const { token } = useAuth();
 
     const onSubmit = async (data, e) => {
-
-        await api[formAction](data, checklist);
+      //const payload = {data, checklist}
+        await api[formAction](data, token);
         reloadData();
         e.target.reset();
     };
@@ -39,7 +40,8 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                   <div className="bg-white px-4 py-5 sm:p-6">
                     <div className="grid grid-cols-6 gap-6">
                       {formEntries.map(entry => (
-                        <div className="col-span-6 sm:col-span-3">
+                        <div 
+                        key="entry.dbKey" className="col-span-6 sm:col-span-3">
                           <label 
                               htmlFor={entry.dbKey} 
                               className="block text-sm font-medium text-gray-700">
@@ -48,6 +50,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                           {
                               entry.type === 'number' ? 
                               (<input 
+                                  key="x._id"
                                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full max-w-xs bg-white" 
                                   type={entry.type} 
                                   step={entry.step}
@@ -56,6 +59,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                               />): entry.type === 'select' ? 
                               (
                                 <select 
+                                  key="x._id"
                                   className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm sm:text-sm select select-bordered w-full max-w-xs bg-white" 
                                   {...register(entry.dbKey)}
                                   defaultValue={entry.default? entry.default: null}>
@@ -65,6 +69,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                                 </select>
                               ):
                               (<input 
+                                  key="x._id"
                                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full max-w-xs bg-white"
                                   type={entry.type}
                                   defaultValue={entry.default? entry.default: null}
@@ -76,12 +81,12 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                       {checklist? 
                       <div className="col-span-6 sm:col-span-3">
                         {checklist.map(x => (
-                          <div className="form-control w-full max-w-xs ">
+                          <div key="x._id" className="form-control w-full max-w-xs ">
                           <label className="cursor-pointer label">
                               <span className="label-text text-base-900">Spirit distilled on {new Date(x.distillData.distillDate).toDateString()}</span>
                               <input type="checkbox" className="checkbox checkbox-accent" {...register(`${x._id}`)}/>
                           </label>
-                      </div>
+                          </div>
                         ))}
                       </div>: null}
                       <div className="col-span-6 sm:col-span-3 text-right">

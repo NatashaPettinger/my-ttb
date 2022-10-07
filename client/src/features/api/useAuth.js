@@ -1,28 +1,110 @@
 import React from "react";
+import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-//const authContext = React.createContext();
+const api = axios.create({
+    baseURL: 'http://localhost:8000/api',
+})
 
-export default function useAuth() {
+const getToken = payload => api.post('/login', payload);
+
+const AuthContext = React.createContext(null);
+
+export function AuthProvider ({ children }){
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const [token, setToken] = React.useState(null);
+    const [tokenExpirationDate, setTokenExpirationDate] = React.useState();
+
+    const handleAuthCheck = storedData => {
+        setToken(storedData.token);
+        setTokenExpirationDate(storedData.expirationTime);
+        const origin = location.state?.from?.pathname || '/raw-materials';
+        navigate(origin);
+    }
+
+    const handleLogin = async (payload) => {
+        const token = await getToken(payload);
+        
+        const expiration = new Date(new Date().getTime() + 1000 * 60  * 60);
+        setTokenExpirationDate(expiration);
+
+        setToken(token.data.token);
+        localStorage.setItem(
+            "userData",
+            JSON.stringify({
+                    token: token.data.token,
+                    expirationTime: expiration.toISOString()
+            })
+        );
+
+        const origin = location.state?.from?.pathname || '/raw-materials';
+        navigate(origin);
+    };
+
+    const handleLogout = () => {
+        setToken(null);
+        setTokenExpirationDate(null);
+        localStorage.removeItem('userData');
+        navigate('/');
+    };
+
+    React.useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem('userData'));    
+        if (storedData && storedData.token && new Date(storedData.expirationTime) > new Date()){
+            handleAuthCheck(storedData)
+        }}, []);
+        //but need to be able to call it when you go to protected routes...
+        
+    const value = {
+        token,
+        onLogin: handleLogin,
+        onLogout: handleLogout,
+        onCheck: handleAuthCheck,
+    };
+
+    return (
+        <AuthContext.Provider value={value}>
+        {children}
+        </AuthContext.Provider>
+    );
+};
+
+export default function useAuth () {
+  return React.useContext(AuthContext);
+};
+
+
+
+
+
+
+/* 
+function useAuth() {
   const [authed, setAuthed] = React.useState(false);
 
   return {
     authed,
-    loginAuth() {
-      return new Promise((res) => {
-        setAuthed(true);
-        res();
-      });
+    async login(payload){
+        const res = await api.post('/login', payload);
+        console.log(res.data.token)
+        if (res.data.token) {
+            localStorage.setItem("user", JSON.stringify(res.data.token));
+            setAuthed(true);
+        }
+        return res.data.token;
     },
-    logoutAuth() {
-      return new Promise((res) => {
+    logout() {
         setAuthed(false);
-        res();
-      });
+        localStorage.removeItem('user');
     },
   };
 }
 
-/* export function AuthProvider({ children }) {
+const authContext = React.createContext('');
+
+export function AuthProvider({ children }) {
   const auth = useAuth();
 
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;

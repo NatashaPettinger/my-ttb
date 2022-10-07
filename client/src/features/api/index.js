@@ -1,15 +1,12 @@
 import axios from 'axios';
 import authHeader from "./authHeader";
-import useAuth from './useAuth';
-
-const { loginAuth, logoutAuth } = useAuth;
 
 const api = axios.create({
     baseURL: 'http://localhost:8000/api',
 })
 
 // Auth requests
-export const login = async (payload) => {
+/* export const login = async (payload) => {
     const res = await api.post('/login', payload);
     console.log(res.data.token)
     if (res.data.token) {
@@ -20,22 +17,22 @@ export const login = async (payload) => {
 }
 export const signup = payload => api.post('/signup', payload);
 export const logout = async() => {
-    await api.get('/logout');
+    //await api.get('/logout');
     localStorage.removeItem('user');
     logoutAuth();
-}
+} */
 export const getCurrentUser = () => JSON.parse(localStorage.getItem("user"));
 
 // Raw materials requests
-export const getRawMaterials = () => api.get('/rawMaterials',  { headers: authHeader() });
-export const receiveRawMaterials = payload => api.patch('/rawMaterials', payload,  { headers: authHeader() });
+export const getRawMaterials = token => api.get('/rawMaterials',  { headers: authHeader(token) });
+export const receiveRawMaterials = (payload, token) => api.patch('/rawMaterials', payload,  { headers: authHeader(token) });
 export const adjustQuantityOnHand = payload => api.patch('/rawMaterials/quantityAdjust', payload);
 export const editRawMaterials = payload => api.patch('/rawMaterials/edit', payload);
 export const editQuantityAdjust = payload => api.patch('/rawMaterials/editQuantityAdjust', payload)
 export const editMaterialsLog = payload => api.patch('/rawMaterials/editMaterialsLog', payload)
 
 // Production requests
-export const getFerments = () => api.get('/production');
+export const getFerments = token => api.get('/production', { headers: authHeader(token) });
 export const createMash = payload => api.post('/production', payload);
 export const addIngredient = payload => api.patch('/production/addIngredient', payload);
 export const setFermentTank = payload => api.patch('production/setFermentTank', payload);
@@ -68,9 +65,9 @@ export const getTTBReports = () => api.get('/ttb')
 
 
 const apis = {
-    login,
+    /* login,
     signup,
-    logout,
+    logout, */
     getCurrentUser,
     //rawMaterials requests
     getRawMaterials,

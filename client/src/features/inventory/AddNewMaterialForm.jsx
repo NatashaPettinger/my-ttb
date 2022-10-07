@@ -2,7 +2,7 @@ import React from 'react'
 import { PostForm } from '../common'
 
 
-const AddMaterialForm = ({ reloadData }) => {
+const AddMaterialForm = ({ reloadData, token }) => {
 
     const formEntries = [
       {label: "Purchase Date:", 
@@ -44,11 +44,6 @@ const AddMaterialForm = ({ reloadData }) => {
         {dbEntry: "gal", label: "gal"},
         {dbEntry: "tons", label: "tons"},
         {dbEntry: "ea", label: "ea"},]},
-      {label: "Reorder Quantity (UOM):", 
-      dbKey: "reorderQuantity", 
-      type: "number", 
-      step: ".1", 
-      min: "0"},
       {label: "Number of Packages:", 
       dbKey: "quantity", 
       type: "number", 

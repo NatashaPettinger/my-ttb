@@ -1,8 +1,8 @@
-export default function authHeader() {
-    const user = JSON.parse(localStorage.getItem('user'));
+export default function authHeader(token) {
+    //const user = JSON.parse(localStorage.getItem('user'));
   
-    if (user) {
-      return { 'x-auth-token': user };
+    if (token) {
+      return { 'x-auth-token': token };
     } else {
       return {};
     }

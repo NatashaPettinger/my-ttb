@@ -1,18 +1,16 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
-import api from '../api'
+import useAuth from '../api/useAuth'
 
 const Login = () => {
 
-    const navigate = useNavigate();
+    const { onLogin } = useAuth();
 
     const { register, handleSubmit } = useForm();
 
     const onSubmit = async (data, e) => {
-        const res = await api.login(data);
+        await onLogin(data);
         e.target.reset();
-        navigate('/raw-materials')
     };
 
 

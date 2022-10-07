@@ -16,14 +16,8 @@ const navigation = [
 
 const NavBar = () => {
 
-    const { authed, logout } = useAuth();
-    const navigate = useNavigate();
-
-    const logOut = async () => {
-        await api.logout();
-        logout();
-        navigate('/', {replace: true})
-    }
+    const { token, onLogout } = useAuth();
+      
 
     return (
         <div className="navbar bg-base-100">
@@ -48,7 +42,10 @@ const NavBar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <span className="btn" onClick={logOut}>Logout</span>
+                {!!token && (
+                <span className="btn" onClick={onLogout}>Logout</span>
+                )}
+                
             </div>
         </div>
     )

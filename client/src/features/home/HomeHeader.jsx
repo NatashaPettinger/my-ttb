@@ -4,6 +4,7 @@ import api from '../api'
 //import logo from '../logo-dark.png'
 //import { Fragment } from 'react'
 import { Popover, /* Transition */ } from '@headlessui/react'
+import useAuth from "../api/useAuth";
 //import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 
@@ -12,22 +13,7 @@ const navigation = []
 export default function HomeHeader() {
   //const [showPrivateContent, setShowPrivateContent] = useState(false);
 
-  const [showLogout, setShowLogout] = useState(false);
-
-  useEffect(() => {
-    const user = api.getCurrentUser();
-
-    if (user) {
-      setShowLogout(true);
-    }
-  }, []);
-
-  const navigate = useNavigate();
-
-  const logOut = async () => {
-      await api.logout();
-      navigate('/', {replace: true})
-  }
+  const { token, onLogout } = useAuth();
 
     return (
         <>
@@ -50,14 +36,13 @@ export default function HomeHeader() {
                       {item.name}
                     </a>
                   ))}
-                  <label htmlFor="loginModal" className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Log in</label>
+                  {!!token ? 
+                    <label onClick={onLogout} className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Logout</label>
+                    :<label htmlFor="loginModal" className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Log in</label>
+                  }
                 </div>
               </nav>
             </div>
-            {showLogout &&
-            <div className="navbar-end">
-                <span className="btn" onClick={logOut}>Logout</span>
-            </div>}
 
            {/*  <Transition
               as={Fragment}
