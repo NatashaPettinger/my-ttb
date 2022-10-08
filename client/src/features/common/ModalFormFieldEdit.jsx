@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import api from '../api';
+import useAuth from '../api/useAuth';
 
 const Form = ({ 
     formAction,
@@ -17,12 +18,12 @@ const Form = ({
     closeModal}) => {
     
     const { register, handleSubmit } = useForm();
+    const { token } = useAuth();
 
 
     const onSubmit = async (data, e) => {
         const payload = {parentId, entryKey, data};
-        console.log(payload)
-        await api[formAction](payload);
+        await api[formAction](payload, token);
         reloadData();
         e.target.reset();
         closeModal();

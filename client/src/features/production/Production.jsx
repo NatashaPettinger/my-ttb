@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import { FermentTable, NewMashForm, NewStillRunFormTransfer, NewStillRunFormProduction, TransferFromProductionForm } from '.';
 import { Footer, NavBar, Tabs } from '../common'
+import useAuth from '../api/useAuth';
 
 
 
@@ -9,6 +10,7 @@ const Production = () => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { token } = useAuth();
   
     useEffect(() => {
       getData();
@@ -16,7 +18,7 @@ const Production = () => {
   
     const getData = async () => {
       try {
-        const res = await api.getFerments()
+        const res = await api.getFerments(token)
         setData(res.data.data);
         setLoading(false);
       } catch (e) {

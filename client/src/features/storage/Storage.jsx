@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import { TIBForm, TransferFromProduction, WarehousingTable } from '.';
 import { Footer, NavBar, Tabs } from '../common';
+import useAuth from '../api/useAuth';
 
 
 //add: expanded (to show history of distillate), automatically hide id.
@@ -12,6 +13,7 @@ const Warehousing = () => {
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+  const { token } = useAuth();
 
   useEffect(() => {
     getData();
@@ -19,7 +21,7 @@ const Warehousing = () => {
 
   const getData = async () => {
     try {
-      const res = await api.getTanks()
+      const res = await api.getTanks(token)
       setData(res.data.data);
       setLoading(false);
     } catch (e) {

@@ -1,9 +1,11 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import api from '../api'
+import useAuth from '../api/useAuth';
 
 const PurchaseForm = ({ row, reloadData }) => {
     const { register, handleSubmit, reset } = useForm();
+    const { token } = useAuth();
     // or you can set up the defaultValues at useForm
     // const { register, handleSubmit } = useForm({
     //   defaultValues,
@@ -14,7 +16,7 @@ const PurchaseForm = ({ row, reloadData }) => {
             data: data,
         }
         console.log(payload)
-        await api.receiveRawMaterials(payload)
+        await api.receiveRawMaterials(payload, token)
         reloadData()
         e.target.reset();
         document.getElementById('purchaseLogForm').checked = false;

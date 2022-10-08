@@ -1,59 +1,74 @@
-import axios from 'axios'
+import axios from 'axios';
+import authHeader from "./authHeader";
 
 const api = axios.create({
     baseURL: 'http://localhost:8000/api',
 })
 
 // Auth requests
-export const login = payload => api.post('/login', payload)
-export const register = payload => api.post('/register', payload)
-export const logout = () => api.get('/logout')
+/* export const login = async (payload) => {
+    const res = await api.post('/login', payload);
+    console.log(res.data.token)
+    if (res.data.token) {
+        localStorage.setItem("user", JSON.stringify(res.data.token));
+        loginAuth();
+    }
+    return res.data.token;
+}
+export const signup = payload => api.post('/signup', payload);
+export const logout = async() => {
+    //await api.get('/logout');
+    localStorage.removeItem('user');
+    logoutAuth();
+} */
+export const getCurrentUser = () => JSON.parse(localStorage.getItem("user"));
 
 // Raw materials requests
-export const getRawMaterials = () => api.get('/rawMaterials');
-export const receiveRawMaterials = payload => api.patch('/rawMaterials', payload);
-export const adjustQuantityOnHand = payload => api.patch('/rawMaterials/quantityAdjust', payload);
-export const editRawMaterials = payload => api.patch('/rawMaterials/edit', payload);
-export const editQuantityAdjust = payload => api.patch('/rawMaterials/editQuantityAdjust', payload)
-export const editMaterialsLog = payload => api.patch('/rawMaterials/editMaterialsLog', payload)
+export const getRawMaterials = token => api.get('/rawMaterials', { headers: authHeader(token) });
+export const receiveRawMaterials = (payload, token) => api.patch('/rawMaterials', payload, { headers: authHeader(token) });
+export const adjustQuantityOnHand = (payload, token) => api.patch('/rawMaterials/quantityAdjust', payload, { headers: authHeader(token) });
+export const editRawMaterials = (payload, token) => api.patch('/rawMaterials/edit', payload, { headers: authHeader(token) });
+export const editQuantityAdjust = (payload, token) => api.patch('/rawMaterials/editQuantityAdjust', payload, { headers: authHeader(token) })
+export const editMaterialsLog = (payload, token) => api.patch('/rawMaterials/editMaterialsLog', payload, { headers: authHeader(token) })
 
 // Production requests
-export const getFerments = () => api.get('/production');
-export const createMash = payload => api.post('/production', payload);
-export const addIngredient = payload => api.patch('/production/addIngredient', payload);
-export const setFermentTank = payload => api.patch('production/setFermentTank', payload);
-export const addFermentData = payload => api.patch('production/addFermentData', payload);
-export const editFermentLog = payload => api.patch('production/editFermentLog', payload);
-export const stillInitialize = payload => api.patch('production/stillInitialize', payload);
-export const addStillDataPoint = payload => api.patch('production/addStillDataPoint', payload);
-export const stillMashData = payload => api.patch('production/stillMashData', payload);
-export const stillCutStarts = payload => api.patch('production/stillCutStarts', payload);
-export const productionTransferLog = payload => api.post('production/productionTransferLog', payload)
+export const getFerments = token => api.get('/production', { headers: authHeader(token) });
+export const createMash = (payload, token) => api.post('/production', payload, { headers: authHeader(token) });
+export const addIngredient = (payload, token) => api.patch('/production/addIngredient', payload, { headers: authHeader(token) });
+export const setFermentTank = (payload, token) => api.patch('production/setFermentTank', payload, { headers: authHeader(token) });
+export const addFermentData = (payload, token) => api.patch('production/addFermentData', payload, { headers: authHeader(token) });
+export const editFermentLog = (payload, token) => api.patch('production/editFermentLog', payload, { headers: authHeader(token) });
+export const stillInitialize = (payload, token) => api.patch('production/stillInitialize', payload, { headers: authHeader(token) });
+export const addStillDataPoint = (payload, token) => api.patch('production/addStillDataPoint', payload, { headers: authHeader(token) });
+export const stillMashData = (payload, token) => api.patch('production/stillMashData', payload, { headers: authHeader(token) });
+export const stillCutStarts = (payload, token) => api.patch('production/stillCutStarts', payload, { headers: authHeader(token) });
+export const productionTransferLog = (payload, token) => api.post('production/productionTransferLog', payload, { headers: authHeader(token) });
 
 // Warehousing requests
-export const getTanks = () => api.get('/warehousing')
-export const createTank = payload => api.post('/warehousing', payload) // for dealing with TIBs
-export const setProductionTank = payload => api.post('/warehousing/setProductionTank', payload)
-export const transferFromProduction = payload => api.patch('/warehousing/transferFromProduction', payload)
-export const updateTank= payload => api.patch('/warehousing/updateTank', payload)
-export const updateFill= payload => api.patch('/warehousing/updateFill', payload)
-export const transferToNewTank= payload => api.patch('/warehousing/existing-to-new', payload)
-export const transferToExistingTank= payload => api.patch('/warehousing/existing-to-existing', payload)
-export const transferOutOfStorage = payload => api.patch('/warehousing/transferOutOfStorage', payload)
+export const getTanks = token => api.get('/warehousing', { headers: authHeader(token) });
+export const createTank = (payload, token) => api.post('/warehousing', payload, { headers: authHeader(token) }); // for dealing with TIBs
+export const setProductionTank = (payload, token) => api.post('/warehousing/setProductionTank', payload, { headers: authHeader(token) });
+export const transferFromProduction = (payload, token) => api.patch('/warehousing/transferFromProduction', payload, { headers: authHeader(token) });
+export const updateTank= (payload, token) => api.patch('/warehousing/updateTank', payload, { headers: authHeader(token) });
+export const updateFill= (payload, token) => api.patch('/warehousing/updateFill', payload, { headers: authHeader(token) });
+export const transferToNewTank= (payload, token) => api.patch('/warehousing/existing-to-new', payload, { headers: authHeader(token) });
+export const transferToExistingTank= (payload, token) => api.patch('/warehousing/existing-to-existing', payload, { headers: authHeader(token) });
+export const transferOutOfStorage = (payload, token) => api.patch('/warehousing/transferOutOfStorage', payload, { headers: authHeader(token) });
 
 // Processing requests
-export const getProcessing = () => api.get('/processing')
-export const processNewBatch = payload => api.post('/processing', payload)
+export const getProcessing = token => api.get('/processing', { headers: authHeader(token) })
+export const processNewBatch = (payload, token) => api.post('/processing', payload, { headers: authHeader(token) })
 
 //TTB requests
-export const processTTBReports = payload => api.post('/ttb', payload)
-export const getTTBReports = () => api.get('/ttb')
+export const processTTBReports = (payload, token) => api.post('/ttb', payload, { headers: authHeader(token) })
+export const getTTBReports = token => api.get('/ttb', { headers: authHeader(token) })
 
 
 const apis = {
-    login,
-    register,
-    logout,
+    /* login,
+    signup,
+    logout, */
+    getCurrentUser,
     //rawMaterials requests
     getRawMaterials,
     receiveRawMaterials,

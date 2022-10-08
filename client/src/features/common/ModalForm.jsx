@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import api from '../api'
+import useAuth from '../api/useAuth';
 
 
 //generic label & input component that takes an entry type, default value, label, dbModelKey
@@ -14,13 +15,14 @@ import api from '../api'
 const FormElement = ({ id, log, reloadData, formAction, buttonLabel, formEntries, closeModal }) => {
     
     const { register, handleSubmit, reset } = useForm();
+    const { token } = useAuth();
 
 
 
     const onSubmit = async (data, e) => {
         const payload = {id, data, log};
         console.log(payload)
-        await api[formAction](payload);
+        await api[formAction](payload, token);
         reloadData();
         e.target.reset();
         closeModal();

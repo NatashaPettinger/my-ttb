@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-const { JWT_SECRET } = config;
+const { jwtSecret } = config;
 
-function auth(req, res, next) {s
+function auth(req, res, next) {
   const token = req.header('x-auth-token');
 
   // Check for token
@@ -12,7 +12,7 @@ function auth(req, res, next) {s
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, jwtSecret);
     // Add user from payload
     req.user = decoded;
     next();

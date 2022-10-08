@@ -1,28 +1,73 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './assets/main.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Home } from './features/home'
 import { Inventory } from './features/inventory'
 import { Processing } from './features/processing'
 import { Production } from './features/production'
 import { Storage } from './features/storage'
 import { TTB } from './features/ttb'
+import useAuth, { AuthProvider } from './features/api/useAuth'
 
 
 function App() {
-  //const [currentUser, setCurrentUser] = useState(null)
+
+  const ProtectedRoute = ({ children }) => {
+    const { token } = useAuth();
+    const location = useLocation();
+  
+    if (!token) {
+      return <Navigate to="/" replace state={{ from: location }} />;
+    }
+  
+    return children;
+  };
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={ <Home/> } />
-        <Route path="/raw-materials" element={ <Inventory/> } />
-        <Route path="/production" element={ <Production/> } />
-        <Route path="/warehousing" element={ <Storage/> } />
-        <Route path="/processing" element={ <Processing/> } />
-        <Route path="/ttb" element={ <TTB/> } />
-      </Routes>
-    </Router>
+      <Router>
+        <AuthProvider>
+        <Routes>
+          <Route path="/" element={ <Home/> } />
+          <Route 
+            path="/raw-materials" 
+            element={ 
+              <ProtectedRoute>
+                <Inventory/>
+              </ProtectedRoute> 
+            } 
+          />
+          <Route 
+            path="/production" 
+            element={ 
+              <ProtectedRoute>
+                <Production/> 
+              </ProtectedRoute> 
+            }
+          />
+          <Route 
+            path="/warehousing" 
+            element={ 
+              <ProtectedRoute>
+                <Storage/>
+              </ProtectedRoute> 
+            }/>
+          <Route 
+            path="/processing" 
+            element={
+              <ProtectedRoute>
+                <Processing/>
+              </ProtectedRoute> 
+            }/>
+          <Route 
+            path="/ttb" 
+            element={
+              <ProtectedRoute>
+                <TTB/>
+              </ProtectedRoute> 
+            }/>
+        </Routes>
+      </AuthProvider>
+      </Router>
   );
 }
 

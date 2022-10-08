@@ -1,8 +1,16 @@
 import React from 'react'
+import useAuth from "../api/useAuth";
 
 
 
 export default function HomeHero () {
+    const { token, onLogout } = useAuth();
+    const handleLogout = e => {
+      e.preventDefault();
+      onLogout();
+    }
+  
+
     return (
 
         <main className="mx-auto mt-10 max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
@@ -15,22 +23,24 @@ export default function HomeHero () {
                 so that you can focus on what you do best: making one-of-a-kind products.
             </p>
             <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div className="rounded-md shadow">
-                <label
-                    htmlFor="registerModal"
-                    className="modal-button flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue-500 px-8 py-3 text-base font-medium text-white hover:bg-darkblue-700 md:py-4 md:px-10 md:text-lg no-underline cursor-pointer"
-                >
-                    Get started
-                </label>
-                </div>
-                <div className="mt-3 sm:mt-0 sm:ml-3">
-                <a
-                    href="/raw-materials"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue-100 px-8 py-3 text-base font-medium text-darkblue-700 hover:bg-darkblue-200 md:py-4 md:px-10 md:text-lg no-underline"
-                >
-                    Live demo
-                </a>
-                </div>
+            {!!token ? 
+                    <div className="mt-3 sm:mt-0 sm:ml-3">
+                        <label onClick={handleLogout} className="modal-button flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue-100 px-8 py-3 text-base font-medium text-darkblue-700 hover:bg-darkblue-200 md:py-4 md:px-10 md:text-lg no-underline">Logout</label>
+                    </div>
+                :
+                <>
+                    <div className="rounded-md shadow">
+                        <label
+                            htmlFor="registerModal"
+                            className="modal-button flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue-500 px-8 py-3 text-base font-medium text-white hover:bg-darkblue-700 md:py-4 md:px-10 md:text-lg no-underline cursor-pointer"
+                        >
+                            Get started
+                        </label>
+                    </div>
+                    <div className="mt-3 sm:mt-0 sm:ml-3">
+                        <label htmlFor="loginModal" className="modal-button flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue-100 px-8 py-3 text-base font-medium text-darkblue-700 hover:bg-darkblue-200 md:py-4 md:px-10 md:text-lg no-underline">Log in</label>
+                    </div>
+                </>}
             </div>
             </div>
         </main>

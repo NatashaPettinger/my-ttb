@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import { Footer, NavBar } from '../common'
 import { ProcessReports, TTBOperationsList } from '.'
+import useAuth from '../api/useAuth';
 
 const TTB = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const { token } = useAuth();
 
   useEffect(() => {
       getData();
@@ -13,7 +15,7 @@ const TTB = () => {
 
   const getData = async () => {
       try {
-          const res = await api.getTTBReports();
+          const res = await api.getTTBReports(token);
           console.log(res.data)
           setData(res.data.data);
           setLoading(false);

@@ -6,7 +6,7 @@ const UseLog = ({ row, reloadData }) => {
   
   const data = row.useLog;
   const uom = row.uom;
-  const [entries, setEntries] = useState(data[0]);
+  const [entries, setEntries] = useState({});
   const [showModal, setShowModal] = useState(false);
   const formInputs = [
     {

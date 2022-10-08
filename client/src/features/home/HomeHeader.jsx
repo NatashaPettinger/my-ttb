@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../api'
 //import logo from '../logo-dark.png'
 //import { Fragment } from 'react'
 import { Popover, /* Transition */ } from '@headlessui/react'
+import useAuth from "../api/useAuth";
 //import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 
 const navigation = []
 
 export default function HomeHeader() {
+  //const [showPrivateContent, setShowPrivateContent] = useState(false);
+
+  const { token, onLogout } = useAuth();
+  const handleLogout = e => {
+    e.preventDefault();
+    onLogout();
+  }
+
     return (
         <>
             <Popover>
@@ -29,7 +40,10 @@ export default function HomeHeader() {
                       {item.name}
                     </a>
                   ))}
-                  <label htmlFor="loginModal" className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Log in</label>
+                  {!!token ? 
+                    <label onClick={handleLogout} className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Logout</label>
+                    :<label htmlFor="loginModal" className="modal-button font-medium text-darkblue-600 hover:text-darkblue-500">Log in</label>
+                  }
                 </div>
               </nav>
             </div>

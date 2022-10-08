@@ -1,10 +1,12 @@
 import React from 'react'
 import { useForm } from "react-hook-form";
 import api from '../api'
+import useAuth from '../api/useAuth'
 
 
 const FermentDataForm = ({ row, reloadData }) => {
     const { register, handleSubmit, reset } = useForm();
+    const { token } = useAuth();
 
     const id = row._id;
 
@@ -12,7 +14,7 @@ const FermentDataForm = ({ row, reloadData }) => {
 
     const onSubmit = async (data, e, ) => {
         const payload = {id, data};
-        await api.stillMashData(payload);
+        await api.stillMashData(payload, token);
         reloadData();
         e.target.reset();
     };

@@ -10,7 +10,9 @@ const PreviousTanks = new mongoose.Schema({
     tankType: String,
     tankNumber: Number,
     tankId: String,
-    storageDuration: Number
+    storageDuration: Number,
+    fillDate: Date,
+    emptyDate: Date,
 });
 
 // This info does not change unless barrel is broken or sold
@@ -98,11 +100,11 @@ const Processing = new mongoose.Schema({
     },
     count750mLBottles: {
         type: Number, 
-        required: true,
+        default: 0,
     },
     count375mLBottles: {
         type: Number, 
-        required: true,
+        default: 0,
     },
     totalWineGal: {
         type: Number,

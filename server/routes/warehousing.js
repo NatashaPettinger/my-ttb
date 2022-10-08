@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const warehouseCtrl = require('../controllers/warehousing')
+const auth = require('../middleware/auth');
 
-router.get('/', warehouseCtrl.getTanks)
+router.get('/', auth, warehouseCtrl.getTanks)
 router.post('/', warehouseCtrl.createTank)
 router.patch('/', warehouseCtrl.transferOutOfStorage)
 router.post('/setProductionTank', warehouseCtrl.setProductionTank)

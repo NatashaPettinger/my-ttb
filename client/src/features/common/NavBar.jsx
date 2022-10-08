@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuth from "../api/useAuth";
 import api from '../api';
 
 
@@ -14,12 +15,9 @@ const navigation = [
 
 
 const NavBar = () => {
-    const navigate = useNavigate();
 
-    const logOut = async () => {
-        await api.logout();
-        navigate('/', {replace: true})
-    }
+    const { token, onLogout } = useAuth();
+      
 
     return (
         <div className="navbar bg-base-100">
@@ -44,7 +42,10 @@ const NavBar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <span className="btn" onClick={logOut}>Logout</span>
+                {!!token && (
+                <span className="btn" onClick={onLogout}>Logout</span>
+                )}
+                
             </div>
         </div>
     )
