@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import api from '../api'
 import { PostForm } from '../common'
+import useAuth from '../api/useAuth'
 
 
 function ProcessingForm({ data, reloadData }){
@@ -109,6 +110,7 @@ function DataLoading({ data, loading, reloadData }) {
 function NewBatchForm({ reloadData }){
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState([]);
+    const { token } = useAuth();
   
     useEffect(() => {
       getData();
@@ -116,7 +118,7 @@ function NewBatchForm({ reloadData }){
   
     const getData = async () => {
       try {
-        const res = await api.getTanks()
+        const res = await api.getTanks(token)
         setData(res.data.data);
         setLoading(false);
       } catch (e) {

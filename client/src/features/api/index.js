@@ -46,18 +46,18 @@ export const productionTransferLog = (payload, token) => api.post('production/pr
 
 // Warehousing requests
 export const getTanks = token => api.get('/warehousing', { headers: authHeader(token) });
-export const createTank = payload => api.post('/warehousing', payload); // for dealing with TIBs
-export const setProductionTank = payload => api.post('/warehousing/setProductionTank', payload);
-export const transferFromProduction = payload => api.patch('/warehousing/transferFromProduction', payload);
-export const updateTank= payload => api.patch('/warehousing/updateTank', payload);
-export const updateFill= payload => api.patch('/warehousing/updateFill', payload);
-export const transferToNewTank= payload => api.patch('/warehousing/existing-to-new', payload);
-export const transferToExistingTank= payload => api.patch('/warehousing/existing-to-existing', payload);
-export const transferOutOfStorage = payload => api.patch('/warehousing/transferOutOfStorage', payload);
+export const createTank = (payload, token) => api.post('/warehousing', payload, { headers: authHeader(token) }); // for dealing with TIBs
+export const setProductionTank = (payload, token) => api.post('/warehousing/setProductionTank', payload, { headers: authHeader(token) });
+export const transferFromProduction = (payload, token) => api.patch('/warehousing/transferFromProduction', payload, { headers: authHeader(token) });
+export const updateTank= (payload, token) => api.patch('/warehousing/updateTank', payload, { headers: authHeader(token) });
+export const updateFill= (payload, token) => api.patch('/warehousing/updateFill', payload, { headers: authHeader(token) });
+export const transferToNewTank= (payload, token) => api.patch('/warehousing/existing-to-new', payload, { headers: authHeader(token) });
+export const transferToExistingTank= (payload, token) => api.patch('/warehousing/existing-to-existing', payload, { headers: authHeader(token) });
+export const transferOutOfStorage = (payload, token) => api.patch('/warehousing/transferOutOfStorage', payload, { headers: authHeader(token) });
 
 // Processing requests
 export const getProcessing = token => api.get('/processing', { headers: authHeader(token) })
-export const processNewBatch = payload => api.post('/processing', payload)
+export const processNewBatch = (payload, token) => api.post('/processing', payload, { headers: authHeader(token) })
 
 //TTB requests
 export const processTTBReports = (payload, token) => api.post('/ttb', payload, { headers: authHeader(token) })

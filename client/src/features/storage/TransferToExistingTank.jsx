@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import api from '../api'
 import { ModalForm } from '../common'
+import useAuth from '../api/useAuth'
 
 
 function TransferForm({ row, endTankData, reloadData, closeModal }) {
@@ -88,6 +89,7 @@ function SubRows({ row, data, loading, reloadData, closeModal }) {
 function TransferToExistingTank({ row, reloadData, modalId }) {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState([]);
+    const { token } = useAuth();
   
     useEffect(() => {
       getData();
@@ -95,7 +97,7 @@ function TransferToExistingTank({ row, reloadData, modalId }) {
   
     const getData = async () => {
       try {
-        const res = await api.getTanks()
+        const res = await api.getTanks(token)
         setData(res.data.data);
         setLoading(false);
       } catch (e) {

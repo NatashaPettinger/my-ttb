@@ -19,10 +19,14 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
     const { token } = useAuth();
 
     const onSubmit = async (data, e) => {
-      //const payload = {data, checklist}
+      try {
+        //const payload = {data, checklist}
         await api[formAction](data, token);
         reloadData();
         e.target.reset();
+      } catch (error) {
+        console.log(error.response.data)
+      }
     };
 
     return (
