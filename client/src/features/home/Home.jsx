@@ -20,7 +20,7 @@ export default function Home() {
               <polygon points="50,0 100,0 50,100 0,100" />
             </svg>
 
-            <HomeHeader/>
+            <div className="relative px-4 pt-6 sm:px-6 lg:px-8"></div>
             <HomeHero/>
 
           </div>
@@ -29,7 +29,7 @@ export default function Home() {
           <img
             className="h-56 w-full object-cover sm:h-72 md:h-96 lg:h-full lg:w-full"
             src={one}
-            alt=""
+            alt="vodka column"
           />
         </div>
       </div>
