@@ -7,6 +7,7 @@ const api = axios.create({
 })
 
 const getToken = payload => api.post('/login', payload);
+const signup = payload => api.post('/signup', payload);
 
 const AuthContext = React.createContext(null);
 
@@ -18,7 +19,6 @@ export function AuthProvider ({ children }){
     const [tokenExpirationDate, setTokenExpirationDate] = React.useState();
 
     const handleAuthCheck = storedData => {
-        console.log(location)
         setToken(storedData.token);
         setTokenExpirationDate(storedData.expirationTime);
         const desination = location.pathname;
@@ -26,21 +26,48 @@ export function AuthProvider ({ children }){
     }
 
     const handleLogin = async (payload) => {
-        const token = await getToken(payload);
+        try {
+            const token = await getToken(payload);
         
-        const expiration = new Date(new Date().getTime() + 1000 * 60  * 60);
-        setTokenExpirationDate(expiration);
+            const expiration = new Date(new Date().getTime() + 1000 * 60  * 60);
+            setTokenExpirationDate(expiration);
 
-        setToken(token.data.token);
-        localStorage.setItem(
-            "userData",
-            JSON.stringify({
-                    token: token.data.token,
-                    expirationTime: expiration.toISOString()
-            })
-        );
+            setToken(token.data.token);
+            localStorage.setItem(
+                "userData",
+                JSON.stringify({
+                        token: token.data.token,
+                        expirationTime: expiration.toISOString()
+                })
+            );
 
-        navigate('/raw-materials');
+            navigate('/raw-materials');
+        } catch (error) {
+            console.log(error.response.data)
+        }
+    };
+
+    const handleSignup = async (payload) => {
+        try {
+            const token = await signup(payload);
+            
+            const expiration = new Date(new Date().getTime() + 1000 * 60  * 60);
+            setTokenExpirationDate(expiration);
+    
+            setToken(token.data.token);
+            localStorage.setItem(
+                "userData",
+                JSON.stringify({
+                        token: token.data.token,
+                        expirationTime: expiration.toISOString()
+                })
+            );
+    
+            navigate('/raw-materials');
+            
+        } catch (error) {
+            console.log(error.response.data)
+        }
     };
 
     const handleLogout = () => {
@@ -62,6 +89,7 @@ export function AuthProvider ({ children }){
         onLogin: handleLogin,
         onLogout: handleLogout,
         onCheck: handleAuthCheck,
+        onSignup: handleSignup,
     };
 
     return (

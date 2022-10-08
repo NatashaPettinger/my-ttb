@@ -13,9 +13,9 @@ const { jwtSecret } = config;
  */
 
 const login = async (req, res) => {
-
+ 
   const { email, password } = req.body;
-
+  
   // Simple validation
   if (!email || !password) {
     return res.status(400).json({ msg: 'Please enter all fields' });
@@ -86,8 +86,8 @@ const signup = async (req, res) => {
     console.log(5)
     if (!savedUser) throw Error('Something went wrong saving the user');
     console.log(6)
-    const token = jwt.sign({ id: savedUser._id }, JWT_SECRET, {
-      expiresIn: 3600
+    const token = jwt.sign({ id: savedUser._id }, jwtSecret, {
+      expiresIn: 3600000
     });
     console.log(7)
     res.status(200).json({
