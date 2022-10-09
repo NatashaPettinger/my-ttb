@@ -66,7 +66,7 @@ export function AuthProvider ({ children }){
             navigate('/raw-materials');
             
         } catch (error) {
-            console.log(error.response.data)
+            console.log(error.res.data)
         }
     };
 

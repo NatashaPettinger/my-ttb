@@ -11,16 +11,15 @@ function RawMaterialss() {
   
     useEffect(() => {
         getData();
-    }, []);
+    });
   
     const getData = async () => {
         try {
             const res = await api.getRawMaterials(token);
-            console.log(res.data)
             setData(res.data.data);
             setLoading(false);
         } catch (e) {
-            console.error(new Error(`seems your fetch didn't work`))
+            console.log(e.res.message)
         }
     };
   

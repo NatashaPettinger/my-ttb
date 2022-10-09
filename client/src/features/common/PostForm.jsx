@@ -45,7 +45,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                     <div className="grid grid-cols-6 gap-6">
                       {formEntries.map(entry => (
                         <div 
-                        key="entry.dbKey" className="col-span-6 sm:col-span-3">
+                        key={entry.dbKey} className="col-span-6 sm:col-span-3">
                           <label 
                               htmlFor={entry.dbKey} 
                               className="block text-sm font-medium text-gray-700">
@@ -54,8 +54,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                           {
                               entry.type === 'number' ? 
                               (<input 
-                                  key="x._id"
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full max-w-xs bg-white" 
+                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full bg-white" 
                                   type={entry.type} 
                                   step={entry.step}
                                   defaultValue={entry.default? entry.default: null}
@@ -63,18 +62,16 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                               />): entry.type === 'select' ? 
                               (
                                 <select 
-                                  key="x._id"
-                                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm sm:text-sm select select-bordered w-full max-w-xs bg-white" 
+                                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm sm:text-sm select select-bordered w-full bg-white" 
                                   {...register(entry.dbKey)}
                                   defaultValue={entry.default? entry.default: null}>
                                   {entry.select.map(val => (
-                                    <option value={val.dbEntry}>{val.label}</option>
+                                    <option key={val.dbEntry} value={val.dbEntry}>{val.label}</option>
                                   ))}
                                 </select>
                               ):
                               (<input 
-                                  key="x._id"
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full max-w-xs bg-white"
+                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input w-full bg-white"
                                   type={entry.type}
                                   defaultValue={entry.default? entry.default: null}
                                   {...register(entry.dbKey)}
@@ -85,7 +82,7 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                       {checklist? 
                       <div className="col-span-6 sm:col-span-3">
                         {checklist.map(x => (
-                          <div key="x._id" className="form-control w-full max-w-xs ">
+                          <div key={x._id} className="form-control w-full max-w-xs ">
                           <label className="cursor-pointer label">
                               <span className="label-text text-base-900">Spirit distilled on {new Date(x.distillData.distillDate).toDateString()}</span>
                               <input type="checkbox" className="checkbox checkbox-accent" {...register(`${x._id}`)}/>
@@ -95,12 +92,12 @@ const PostForm = ({ reloadData, formAction, buttonLabel, formEntries, instructio
                       </div>: null}
                       <div className="col-span-6 sm:col-span-3 text-right">
                         <input
-                            className="btn btn-ghost m-2"
+                            className="btn btn-ghost mt-2"
                             type="button"
                             onClick={() => reset()}
                             value="Reset"
                         />
-                        <input className="btn m-2" type="submit" value={buttonLabel} />
+                        <input className="btn mt-2 ml-5" type="submit" value={buttonLabel} />
                       </div>
                   </div>
                   </div>

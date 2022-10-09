@@ -193,6 +193,11 @@ const TTBSchema = new mongoose.Schema({
     processingWineGalBottled: Alcs,
     processingWineGalBottledInBond: Alcs,
     processingBottledForExport: Alcs,
+    userId: {
+        type: String,
+        required: false,
+        unique: false,
+    }
 },
     { timestamps: true},
 );

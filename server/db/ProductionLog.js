@@ -60,6 +60,11 @@ const ProductionLog = new mongoose.Schema({
     },
     distillData: [DistillData],
     notes: String,
+    userId: {
+        type: String,
+        required: false,
+        unique: false,
+    }
 })
 
 module.exports =  mongoose.model.ProductionLog || mongoose.model("ProductionLog", ProductionLog);

@@ -36,6 +36,11 @@ const FinishedGoodSchema = new mongoose.Schema({
         //required: [true, "Please provide a fill date"],
         unique: false,
     },
+    userId: {
+        type: String,
+        required: false,
+        unique: false,
+    }
 },
     { timestamps: true},
 );

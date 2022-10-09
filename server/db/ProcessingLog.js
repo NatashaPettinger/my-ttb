@@ -100,6 +100,11 @@ const ProcessingLog = new mongoose.Schema({
             'processingBottledForExport',],
     },
     distillData: [DistillData],
+    userId: {
+        type: String,
+        required: false,
+        unique: false,
+    }
 })
 
 module.exports =  mongoose.model.ProcessingLog || mongoose.model("ProcessingLog", ProcessingLog);
