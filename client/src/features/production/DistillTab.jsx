@@ -144,7 +144,8 @@ const DistillTab = ({ row, reloadData }) => {
                     reloadData={reloadData} 
                     stillKey={entry.stillKey} 
                     label={entry.label}
-                    type={entry.type}/>
+                    type={entry.type}
+                    key={entry.stillKey}/>
                 ))}
                 <StillFermentDataForm row={row} reloadData={reloadData}/>
                 {startEntries.map(entry => (
@@ -153,7 +154,8 @@ const DistillTab = ({ row, reloadData }) => {
                     reloadData={reloadData} 
                     stillKey={entry.stillKey} 
                     label={entry.label}
-                    type={entry.type}/>
+                    type={entry.type}
+                    key={entry.stillKey}/>
                 ))}
                 <StillCutsForm row={row} reloadData={reloadData} stillKey="foreshotsData" label="Foreshots"/>
                 <StillFormElement 
@@ -172,7 +174,8 @@ const DistillTab = ({ row, reloadData }) => {
                     reloadData={reloadData} 
                     stillKey={entry.stillKey} 
                     label={entry.label}
-                    type={entry.type}/>
+                    type={entry.type}
+                    key={entry.stillKey}/>
                 ))}
               </div>:
               <div className="px-4 py-5">

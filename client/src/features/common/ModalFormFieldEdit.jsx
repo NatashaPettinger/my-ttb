@@ -33,7 +33,7 @@ const Form = ({
         new Date(currentValue).toLocaleDateString(): currentValue;
 
     return (
-        <div className="mt-5 md:col-span-2 md:mt-0">
+        <div className="mt-5 md:col-span-2 md:mt-0" key={entryKey}>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="overflow-hidden shadow sm:rounded-md">
                   <div className="px-1 py-5 sm:p-6">
@@ -64,7 +64,7 @@ const Form = ({
                                   {...register('data')}
                                   defaultValue={currentValue?? null}>
                                   {select.map(val => (
-                                    <option value={val.dbEntry}>{val.label}</option>
+                                    <option key={val.dbEntry} value={val.dbEntry}>{val.label}</option>
                                   ))}
                                 </select>
                             ):<input 
@@ -109,6 +109,7 @@ const LogModal = ({
                             parentId={parentId}
                             reloadData={reloadData} 
                             entryKey={el.entryKey}
+                            key={el.entryKey}
                             label={el.label}
                             currentValue={el.currentValue}
                             type={el.type}

@@ -79,7 +79,6 @@ const ProcessingTable = ({ data, reloadData }) => {
                 {row.original.currentFill.agingData.length? <DistillateAgingHistory row={row.original}/> : null}
               </div>
             </div>
-          <div/>
         </Tabs>
     ),
     []

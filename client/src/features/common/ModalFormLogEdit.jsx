@@ -36,7 +36,7 @@ const Form = ({
         new Date(logEntry[entryKey]).toLocaleDateString(): logEntry[entryKey];
 
     return (
-        <div className="mt-5 md:col-span-2 md:mt-0">
+        <div className="mt-5 md:col-span-2 md:mt-0" key={`${entryKey}${logId}`}>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="overflow-hidden shadow sm:rounded-md">
                   <div className="px-1 py-5 sm:p-6">
@@ -109,6 +109,7 @@ const LogModal = ({
                             logEntryId={logEntryId} 
                             reloadData={reloadData} 
                             entryKey={el.entryKey}
+                            key={el.entryKey}
                             label={el.label}
                             type={el.type}
                             step={el.step}

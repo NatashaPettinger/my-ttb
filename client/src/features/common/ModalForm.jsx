@@ -36,7 +36,7 @@ const FormElement = ({ id, log, reloadData, formAction, buttonLabel, formEntries
                   <div className="px-1 py-5 sm:p-6">
                     <div className="grid grid-cols-6 gap-6">
                       {formEntries.map(entry => (
-                        <div className="col-span-6">
+                        <div className="col-span-6" key={entry.dbKey}>
                           <label 
                               htmlFor={entry.dbKey} 
                               className="block text-sm font-medium text-white">
@@ -59,7 +59,7 @@ const FormElement = ({ id, log, reloadData, formAction, buttonLabel, formEntries
                                   {...register(entry.dbKey)}
                                   defaultValue={entry.default? entry.default: null}>
                                   {entry.select.map(val => (
-                                    <option value={val.dbEntry}>{val.label}</option>
+                                    <option value={val.dbEntry} key={val.dbEntry}>{val.label}</option>
                                   ))}
                                 </select>
                               ):

@@ -19,7 +19,7 @@ function RawMaterialss() {
             setData(res.data.data);
             setLoading(false);
         } catch (e) {
-            console.log(e.res.message)
+            console.error();
         }
     };
   
