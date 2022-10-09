@@ -6,7 +6,8 @@ const ProductionLog = require ('../db/ProductionLog')
 
 const makeStorageLogEntry = async (req, res) => {
     try {
-        console.log(req.body)
+        const log = req.body;
+        log.userId = req.user.id;
         await StorageLog.create(req.body);
         res.status(200).json({ success: true });
     } catch (error) {
@@ -19,7 +20,7 @@ const makeStorageLogEntry = async (req, res) => {
 
 const getTanks = async (req, res) => {
     try{
-        const tanks = await Tank.find().sort({ tankNumber: 'desc' }).lean();
+        const tanks = await Tank.find({ userId: req.user.id }).sort({ tankNumber: 'desc' }).lean();
         res.status(200).json({ success: true, data: tanks });
     } catch (err) {
         console.error(err);
@@ -35,6 +36,7 @@ const createTank = async (req, res) => {
         newTank.currentFill.distillData = [];
         newTank.currentFill.agingData = [];
         newTank.tankHistory = [];
+        newTank.userId = req.user.id;
         
 
         const tank = await Tank.create(newTank);
@@ -72,7 +74,6 @@ const createTank = async (req, res) => {
 
 setProductionTank = async (req, res) => {
     try {
-        console.log(req.body)
         const prodTank = req.body.data;
         prodTank.productionTank = true;
         prodTank.tankInfo.tankNumber = 0;
@@ -85,6 +86,7 @@ setProductionTank = async (req, res) => {
             wineGal: 0,
             proofGal: 0,
         }
+        prodTank.userId = req.user.id;
         await Tank.create(prodTank)
         return res.status(201).json({
             success:true,
@@ -255,6 +257,8 @@ transferToNewTank = async (req, res) => {
         endTank.currentFill.agingData = agingData;
         endTank.currentFill.notes += startTank.currentFill.notes || '';
 
+        endTank.userId = req.user.id;
+
         //edit initial tank to reflect either loss in volume or emptied.
         if (req.body.data.empty) {
             startTank.currentFill.duration = (new Date(req.body.data.emptyDate) - new Date(startTank.currentFill.fillDate))/(1000 * 60 * 60 * 24 * 365);
@@ -300,6 +304,7 @@ transferOutOfStorage = async (req, res) => {
         log1.yearMonth = req.body.data.log.transferDate.slice(0,7);
         log1.quantity = req.body.data.wineGal * log1.proof/100;
         log1.storageTankId = tank._id;
+        log1.userId = req.user.id;
         if (tank.currentFill.distillData) log1.distillData = tank.currentFill.distillData;
         //check to make sure that there are no losses.
         if (req.body.data.empty) {
@@ -307,8 +312,9 @@ transferOutOfStorage = async (req, res) => {
                 const log2 = log1;
                 log2.quantity = tank.currentFill.proofGal - log1.quantity;
                 log2.description = 'storageLosses';
+                log2.userId = req.user.id;
+                await StorageLog.create(log2);
             }
-            await StorageLog.create(log2);
 
             tank.currentFill.duration = (new Date(req.body.data.emptyDate) - new Date(tank.currentFill.fillDate))/(1000 * 60 * 60 * 24 * 365);
             tank.currentFill.emptyDate = new Date(req.body.data.emptyDate);

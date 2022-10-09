@@ -10,7 +10,7 @@ const TTB = require('../db/TTB');
 
 const getReports = async(req,res) => {
     try {
-        const ttb = await TTB.find().sort({ yearMonth: 'desc' });
+        const ttb = await TTB.find({ userId: req.user.id }).sort({ yearMonth: 'desc' });
         res.status(200).json({ success: true, data: ttb });
     } catch (error) {
         console.error(error);
@@ -160,7 +160,7 @@ const processReports = async(req,res) => {
         //add in first of month & last of month and totals
 
         //add in first of month & last of month and totals
-
+        ttb.userId = req.user.id;
         console.log(ttb)
         await TTB.create(ttb);
         res.status(200).json({ success: true });

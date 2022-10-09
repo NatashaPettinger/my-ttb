@@ -17,7 +17,7 @@ const makeProcessingLogEntry = async (req, res) => {
 
 getBatches = async (req, res) => {
     try {
-        const batches = await Processing.find().sort({ batchNumber: 'desc' }).lean()
+        const batches = await Processing.find({ userId: req.user.id }).sort({ batchNumber: 'desc' }).lean()
         res.status(200).json({ success: true, data: batches });
     } catch (error) {
         console.error(error);
@@ -31,6 +31,7 @@ processBatch = async (req, res) => {
     try {
         console.log(req.body)
         const batch = req.body;
+        body.userId = req.user.id;
         batch.totalWineGal = req.body.count750mLBottles/5 + req.body.count375mLBottles/10;
         batch.totalProofGal = batch.totalWineGal * batch.finalProof / 100;
         const tank = await Tank.findOne({ _id: req.body.id })

@@ -2,7 +2,7 @@ const RawMaterial = require('../db/RawMaterial')
 
 const getRawMaterials = async(req, res) => {// working on 9/11/22
     try {
-        const data = await RawMaterial.find({});
+        const data = await RawMaterial.find({ userId: req.user.id });
         res.status(200).json({ success: true, data: data });
     } catch (err) {
         console.error(err);
@@ -22,10 +22,9 @@ receiveRawMaterials = async(req, res) => {
             res.status(200).json({ success: true, data: material });
         }
         else {
-            console.log(1)
             const newMaterial = req.body;
             newMaterial.purchaseLog = req.body;
-            console.log(newMaterial)
+            newMaterial.userId = req.user.id;
             const material =  await RawMaterial.create(newMaterial);
             res.status(200).json({ success: true, data: material });
         }

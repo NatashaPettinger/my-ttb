@@ -23,9 +23,8 @@ const makeProductionLogEntry = async (req, res) => {
 // @access logged in user
 const productionTransferLog = async (req, res) => {
     try {
-        console.log(req.body)
-        
         const log = req.body;
+        log.userId = req.user.id;
         log.yearMonth = req.body.transferDate.slice(0,7);
 
         if (log.description === 'productionReceived') log.processType = 'deposit';
@@ -79,7 +78,7 @@ if (req.body.description === 'productionToStorage') {
 
 const getFerments = async (req, res) => {
     try {
-        const ferments = await Ferment.find().sort({ mashDate: 'desc' });
+        const ferments = await Ferment.find({ userId: req.user.id }).sort({ mashDate: 'desc' });
         res.status(200).json({ success: true, data: ferments });
     } catch (err) {
         console.error(err);
@@ -91,14 +90,14 @@ const getFerments = async (req, res) => {
 
 const createMash = async (req, res) => {
     try {
-        console.log(req.body);
-        const ferment = await Ferment.create(req.body);
+        const ferment = req.body;
+        ferment.userId = req.user.id;
         ferment.distillData = {};
-        await ferment.save();
+        const savedFerment = await Ferment.create(ferment);
         res.json({
             success: true,
             id: ferment._id,
-            message: `${ferment.mashDate} has been added.`,
+            message: `${savedFerment.mashDate} has been added.`,
         })
     } catch (err) {
         console.error(err);
