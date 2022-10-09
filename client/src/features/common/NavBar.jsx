@@ -32,7 +32,7 @@ const NavBar = () => {
                     ))}
                 </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl" href="/">myTTB</a>
+                <button className="btn btn-ghost normal-case text-xl disabled">myTTB</button>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">

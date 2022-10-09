@@ -86,11 +86,11 @@ To avoid signing up, you may log in with the following credentials:
 - Password: drinkwhiskey!1234
 ```
 Demo is currently offline.
-Not all functionality is available in the demo. All pages will be viewable, but form submissions will not lead to changes in the database.
+~~Not all functionality is available in the demo. All pages will be viewable, but form submissions will not lead to changes in the database.~~
 
 
 ### Features
-* Secure login with Passport Auth
+* Secure login with JWT
 * TTB form templating
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -160,15 +160,6 @@ MIDDLE WARE for AUTH.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- ROADMAP -->
 ## Roadmap
 
@@ -216,8 +207,8 @@ MIDDLE WARE for AUTH.
 - [ ] General:
     - [x] ~~Working frontend for raw materials, production, warehousing, and processing~~
     - [ ] Refactor JSX & clean up components folder
-    - [ ] Make it responsive
-    - [ ] Fix styling
+    - [x] ~~Make it responsive~~
+    - [ ] ~~Fix styling~~
     - [ ] Add cleaning schedule/process page
     - [ ] Add finished goods page that tracks how much of each batch is left, where each batch goes, etc.
     - [x] ~~Make footer~~
@@ -237,8 +228,6 @@ See the [open issues](https://github.com/natashapettinger/myttb/issues) for a fu
 
 <!-- CONTRIBUTING -->
 ## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
@@ -260,11 +249,6 @@ Natasha Pettinger - [LinkedIn](https://www.linkedin.com/in/natasha-pettinger/) -
 Project Link: [https://github.com/natashapettinger/myttb-client](https://github.com/natashapettinger/myttb-client)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Acknowledgements
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 ## Legal
