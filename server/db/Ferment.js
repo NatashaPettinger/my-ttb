@@ -103,6 +103,7 @@ const FermentSchema = new mongoose.Schema({
         default: Date.now,
         unique: false,
     }, 
+    mashBill: String,
     ingredients: [Ingredient],
     mashData: MashData,
     fermentTankNo: {

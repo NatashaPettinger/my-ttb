@@ -17,7 +17,7 @@ const ProductionTable = ({ data, reloadData }) => {
             },
             {
               Header: 'Mash Bill',
-              accessor: row => row.ingredients.filter(x => x.category === 'grain' || x.category === 'yeast').map(x => x.type).join('|'),
+              accessor: 'mashBill',
               filterable: true,
             },
             {

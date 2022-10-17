@@ -8,22 +8,9 @@ const CreateMash = ({ reloadData }) => {
         {label: "Mash Date:", 
         dbKey: "mashDate", 
         type: "date",},
-        {label: "Distillate type:", 
-        dbKey: "distillateType", 
-        type: "select", 
-        select: [
-            {dbEntry:"wheat", label:"Wheat Whiskey"},
-            {dbEntry:"rye", label:"Rye Whiskey"},
-            {dbEntry:"bourbon", label:"Bourbon Whiskey"},
-            {dbEntry:"corn", label:"Corn Whiskey"},
-            {dbEntry:"oat", label:"Oat Whiskey"},
-            {dbEntry:"american", label:"American Whiskey"},
-            {dbEntry:"malt", label:"Malt Whiskey"},
-            {dbEntry:"barley", label:"Barley Whiskey"},
-            {dbEntry:"cane", label:"Cane Spirits"},
-            {dbEntry:"beet", label:"Beet Spirits"},
-            {dbEntry:"brandy", label:"Brandy"},
-        ]},
+        {label: "Mash Bill:", 
+        dbKey: "mashBill", 
+        type: "text"},
     ]
     
     return (
