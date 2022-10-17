@@ -1,22 +1,8 @@
-const e = require('express');
 const Ferment = require('../db/Ferment');
 const Tank = require('../db/Tank')
 const StorageLog = require('../db/StorageLog')
 const ProductionLog = require ('../db/ProductionLog')
 
-const makeStorageLogEntry = async (req, res) => {
-    try {
-        const log = req.body;
-        log.userId = req.user.id;
-        await StorageLog.create(req.body);
-        res.status(200).json({ success: true });
-    } catch (error) {
-        console.error(error);
-        return res.status(400).json({
-            message: "Something went wrong."
-        })
-    }
-}
 
 const getTanks = async (req, res) => {
     try{
@@ -30,7 +16,6 @@ const getTanks = async (req, res) => {
 // Use for TIBs:
 const createTank = async (req, res) => {
     try {
-        console.log(req.body)
         const newTank = req.body;
         newTank.tankInfo.status = {useable: true};
         newTank.currentFill.distillData = [];
@@ -38,8 +23,22 @@ const createTank = async (req, res) => {
         newTank.tankHistory = [];
         newTank.userId = req.user.id;
         
-
-        const tank = await Tank.create(newTank);
+        const tank = new Tank(newTank);
+        const log = {
+            transferDate: newTank.currentFill.fillDate,
+            yearMonth: newTank.currentFill.fillDate.slice(0,7),
+            spiritType: req.body.spiritType,
+            quantity: tank.currentFill.proofGal, //proofGallons
+            proof: tank.currentFill.fillProof,
+            storageTankId: tank._id,
+            processType: 'deposit',
+            description: 'depositedInStorage',
+            distillData: [],
+            notes: newTank.currentFill.notes,
+            userId: req.body.user,
+        }
+        await StorageLog.create(log);
+        await tank.save();
         res.json({
             success: true,
             id: tank._id,
@@ -53,26 +52,7 @@ const createTank = async (req, res) => {
     }
 }
 
-// use updateTank instead of decomissionTank
-/* decomissionTank = async (req, res) => {
-    try {
-        const tank = await Tank.find({ _id: req.body.id });
-        if (tank.currentFill.proofGal) throw error('tank not empty');
-        tank.tankInfo.outOfCommission = req.body.data;
-        await tank.save();
-        return res.status(201).json({
-            success:true,
-            message: "Decomission successful",
-        })
-    } catch (error) {
-        console.error(err);
-        return res.status(400).json({
-            message: "Something went wrong."
-        })
-    }
-} */
-
-setProductionTank = async (req, res) => {
+const setProductionTank = async (req, res) => {
     try {
         const prodTank = req.body.data;
         prodTank.productionTank = true;
@@ -101,12 +81,11 @@ setProductionTank = async (req, res) => {
 }
 
 //transfer from processing: adds all processing runs to spiritSafe, which is tank0 in the warehouse.
-transferFromProduction = async (req, res) => {
+const transferFromProduction = async (req, res) => {
     try {
-        console.log(req.body);
-        const ferment = await Ferment.find({ transferred: false, distilled: true });
-        const tank = await Tank.findOne({ productionTank: true });
+        const ferment = await Ferment.find({ _id: { $in: req.body.availableRuns} })
 
+        const tank = await Tank.findOne({ productionTank: true, userId: req.user.id  });
         ferment.forEach(x => tank.currentFill.distillData.push({ 
             fermentId: x._id,
             mashDate: x.mashDate,
@@ -122,10 +101,11 @@ transferFromProduction = async (req, res) => {
         productionLog.processType = 'withdrawal';
         productionLog.quantity = req.body.currentFill.wineGal * req.body.currentFill.fillProof/100;
         productionLog.proof = req.body.currentFill.fillProof;
-        productionLog.distillData = tank.currentFill.distillData
+        productionLog.distillData = tank.currentFill.distillData;
         productionLog.notes = req.body.currentFill.notes;
+        productionLog.userId = req.user.id;
 
-        const storageLog = productionLog;
+        const storageLog = {...productionLog};
         storageLog.description = 'depositedInStorage';
         storageLog.processType = 'deposit';
         if (req.body.productionLog.spiritType === "brandyWeakGrapes" || req.body.productionLog.spiritType === "brandyWeakNoGrapes"){
@@ -165,9 +145,8 @@ transferFromProduction = async (req, res) => {
     }
 }
 
-transferToExistingTank = async (req, res) => {
+const transferToExistingTank = async (req, res) => {
     try {
-        console.log(req.body)
         const startTank = await Tank.findOne({ _id: req.body.id });
         const endTank = await Tank.findOne({ _id: req.body.data.endTank });
         
@@ -226,7 +205,7 @@ transferToExistingTank = async (req, res) => {
     }
 }
 
-transferToNewTank = async (req, res) => {
+const transferToNewTank = async (req, res) => {
     try {
         const startTank = await Tank.findOne({ _id: req.body.id });
         //tankInfo for new tank
@@ -292,7 +271,7 @@ transferToNewTank = async (req, res) => {
     }
 }
 
-transferOutOfStorage = async (req, res) => {
+const transferOutOfStorage = async (req, res) => {
     // add transfer to storage log. Remove distillate from current tank.
     try {
         console.log(req.body)
@@ -309,15 +288,15 @@ transferOutOfStorage = async (req, res) => {
         //check to make sure that there are no losses.
         if (req.body.data.empty) {
             if (tank.currentFill.proofGal - log1.quantity > 0) {
-                const log2 = log1;
+                const log2 = {...log1};
                 log2.quantity = tank.currentFill.proofGal - log1.quantity;
                 log2.description = 'storageLosses';
                 log2.userId = req.user.id;
                 await StorageLog.create(log2);
             }
 
-            tank.currentFill.duration = (new Date(req.body.data.emptyDate) - new Date(tank.currentFill.fillDate))/(1000 * 60 * 60 * 24 * 365);
-            tank.currentFill.emptyDate = new Date(req.body.data.emptyDate);
+            tank.currentFill.duration = (new Date(req.body.data.log.transferDate) - new Date(tank.currentFill.fillDate))/(1000 * 60 * 60 * 24 * 365);
+            tank.currentFill.emptyDate = new Date(req.body.data.log.transferDate);
             tank.tankHistory.push(tank.currentFill);
 
             tank.currentFill.contents = '';
@@ -345,7 +324,7 @@ transferOutOfStorage = async (req, res) => {
     }
 }
 
-updateTank = async (req, res) => {
+const updateTank = async (req, res) => {
     try {
         const tank = await Tank.findOne({ _id: req.body.parentId });
 
@@ -360,7 +339,7 @@ updateTank = async (req, res) => {
     }
 }
 
-updateFill = async (req, res) => {
+const updateFill = async (req, res) => {
     try { 
         const tank = await Tank.findOne({ _id: req.body.parentId });
         tank.currentFill[req.body.entryKey] = req.body.data.data;
@@ -377,7 +356,6 @@ updateFill = async (req, res) => {
 }
 
 module.exports = {
-    makeStorageLogEntry,
     getTanks,
     createTank,
     setProductionTank,

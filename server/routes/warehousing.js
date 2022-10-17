@@ -4,16 +4,15 @@ const warehouseCtrl = require('../controllers/warehousing')
 const auth = require('../middleware/auth');
 
 router.get('/', auth, warehouseCtrl.getTanks)
-router.post('/', warehouseCtrl.createTank)
-router.patch('/', warehouseCtrl.transferOutOfStorage)
-router.post('/setProductionTank', warehouseCtrl.setProductionTank)
-router.patch('/transferFromProduction', warehouseCtrl.transferFromProduction)
-router.patch('/updateTank', warehouseCtrl.updateTank)
-router.patch('/updateFill', warehouseCtrl.updateFill)
-router.patch('/existing-to-new', warehouseCtrl.transferToNewTank)
-router.patch('/existing-to-existing', warehouseCtrl.transferToExistingTank)
-router.patch('/transferOutOfStorage', warehouseCtrl.transferOutOfStorage)
-router.post('/log', warehouseCtrl.makeStorageLogEntry),
+router.post('/', auth, warehouseCtrl.createTank)
+router.patch('/', auth, warehouseCtrl.transferOutOfStorage)
+router.post('/setProductionTank', auth, warehouseCtrl.setProductionTank)
+router.patch('/transferFromProduction', auth, warehouseCtrl.transferFromProduction)
+router.patch('/updateTank', auth, warehouseCtrl.updateTank)
+router.patch('/updateFill', auth, warehouseCtrl.updateFill)
+router.patch('/existing-to-new', auth, warehouseCtrl.transferToNewTank)
+router.patch('/existing-to-existing', auth, warehouseCtrl.transferToExistingTank)
+router.patch('/transferOutOfStorage', auth, warehouseCtrl.transferOutOfStorage)
 
 
 module.exports = router
