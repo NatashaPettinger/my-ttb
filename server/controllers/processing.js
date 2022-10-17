@@ -1,19 +1,8 @@
 const Tank = require('../db/Tank');
 const Processing = require('../db/Processing');
 const ProcessingLog = require('../db/ProcessingLog');
+const StorageLog = require('../db/StorageLog');
 
-const makeProcessingLogEntry = async (req, res) => {
-    try {
-        console.log(req.body)
-        await ProcessingLog.create(req.body);
-        res.status(200).json({ success: true });
-    } catch (error) {
-        console.error(error);
-        return res.status(400).json({
-            message: "Something went wrong."
-        })
-    }
-}
 
 getBatches = async (req, res) => {
     try {
@@ -31,28 +20,73 @@ processBatch = async (req, res) => {
     try {
         console.log(req.body)
         const batch = req.body;
-        body.userId = req.user.id;
+        batch.userId = req.user.id;
         batch.totalWineGal = req.body.count750mLBottles/5 + req.body.count375mLBottles/10;
         batch.totalProofGal = batch.totalWineGal * batch.finalProof / 100;
+
         const tank = await Tank.findOne({ _id: req.body.id })
         batch.tankInfo = tank.tankInfo;
         batch.currentFill = tank.currentFill;
         batch.losses = batch.currentFill.proofGal - batch.totalProofGal;
-        console.log(batch)
-        await Processing.create(batch);
-        //reset tank.currentFill
-        tank.currentFill.contents = '';
-        tank.currentFill.fillDate = null;
-        tank.currentFill.fillProof = 0;
-        tank.currentFill.wineGal = 0;
-        tank.currentFill.proofGal = 0;
-        tank.currentFill.distillData = [];
-        tank.currentFill.agingData = [];
-        tank.currentFill.duration = 0;
-        tank.currentFill.emptyDate = null;
-        tank.currentFill.notes = '';
 
+        const procLog = {
+            transferDate: req.body.transferDate,
+            yearMonth: req.body.transferDate.slice(0,7),
+            spiritType: req.body.spiritType,
+            quantity: batch.totalProofGal, //proofGallons
+            proof: req.body.finalProof,
+            storageTankId: tank._id,
+            processType: 'deposit',
+            description: 'processingBottledTotal',
+            distillData: batch.currentFill.distillData,
+            userId: req.user.id
+        };
+
+        const storLog1 = {
+            transferDate: req.body.transferDate,
+            yearMonth: req.body.transferDate.slice(0,7),
+            spiritType: req.body.spiritType,
+            quantity: batch.totalProofGal, //proofGallons
+            proof: req.body.finalProof,
+            storageTankId: tank._id,
+            processType: 'withdrawal',
+            description: 'storageToProcessing',
+            distillData: batch.currentFill.distillData,
+            userId: req.user.id
+        };
+        const storLog2 = {
+            transferDate: req.body.transferDate,
+            yearMonth: req.body.transferDate.slice(0,7),
+            spiritType: req.body.spiritType,
+            quantity: batch.losses, //proofGallons
+            proof: req.body.finalProof,
+            storageTankId: tank._id,
+            processType: 'withdrawal',
+            description: 'storageLosses',
+            distillData: batch.currentFill.distillData,
+            userId: req.user.id
+        };
+
+        //reset tank.currentFill
+        tank.currentFill = {
+            duration: 0,
+            emptyDate: null,
+            contents: '',
+            fillDate: null,
+            fillProof: 0,
+            wineGal: 0,
+            proofGal: 0,
+            distillData: [],
+            agingData: [],
+            duration: 0,
+            notes: ''
+        }
+
+
+        await Processing.create(batch);
         await tank.save();
+        await StorageLog.create([storLog1, storLog2]);
+        await ProcessingLog.create(prodLog);
         
         
         res.status(200).json({ success: true });
@@ -67,5 +101,4 @@ processBatch = async (req, res) => {
 module.exports = {
     getBatches,
     processBatch,
-    makeProcessingLogEntry
 }
