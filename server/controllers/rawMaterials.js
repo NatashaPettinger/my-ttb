@@ -12,7 +12,7 @@ const getRawMaterials = async(req, res) => {// working on 9/11/22
     }
 }
 
-receiveRawMaterials = async(req, res) => {
+const receiveRawMaterials = async(req, res) => {
     try {
         if (req.body.id) {
             const material = await RawMaterial.findOne({ _id: req.body.id });
@@ -36,9 +36,8 @@ receiveRawMaterials = async(req, res) => {
     }
 }
 
-editMaterialLog = async(req, res) => {
+const editMaterialLog = async(req, res) => {
     try {
-        console.log(req.body)
         const material = await RawMaterial.findOne({ _id: req.body.parentId });
         const index = material[req.body.logId].findIndex(x => x._id == req.body.editId);
 
@@ -67,7 +66,7 @@ editMaterialLog = async(req, res) => {
     }
 }
 
-quantityAdjust = async(req,res) => {
+const quantityAdjust = async(req,res) => {
     try {
         const editEntry = {editDate: req.body.data.editDate}
         const material = await RawMaterial.findOne({ _id: req.body.id });
@@ -78,7 +77,7 @@ quantityAdjust = async(req,res) => {
         material.editLog.push(editEntry);
         
         material.editLog.sort((a,b)=> new Date(b.purchaseDate) - new Date(a.purchaseDate));
-        console.log(material)
+
         await material.save();
         res.status(200).json({ success: true, data: material });
     } catch (error) {
@@ -89,14 +88,11 @@ quantityAdjust = async(req,res) => {
     }
 }
 
-editQuantityAdjust = async(req,res) => {
+const editQuantityAdjust = async(req,res) => {
     try {
-        console.log(req.body)
-
         const material = await RawMaterial.findOne({ _id: req.body.id });
         const index = material.editLog.findIndex(x => x._id == req.body.editId)
-        console.log(index);
-        console.log(material.editLog)
+        
         if (req.body.data.editDate !== '') material.editLog[index].editDate = req.body.data.editDate;
         if (req.body.data.adjustment !== '') material.editLog[index].quantityAdjustment = req.body.data.adjustment;
 
@@ -112,7 +108,7 @@ editQuantityAdjust = async(req,res) => {
     }
 }
 
-editRawMaterials = async(req,res) => {
+const editRawMaterials = async(req,res) => {
     try {
         const material = await RawMaterial.findOne({ _id: req.body.id });
 
@@ -139,13 +135,3 @@ module.exports = {
     editQuantityAdjust,
     editMaterialLog
 }
-
-/* PersonModel.update(
-    { _id: person._id }, 
-    { $push: { friends: friend } },
-    done
-); */
-
-/* const doc = await Model.findById(id);
-doc.name = 'jason bourne';
-await doc.save(); */
