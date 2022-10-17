@@ -3,20 +3,8 @@ const RawMaterial = require('../db/RawMaterial');
 const ProductionLog = require('../db/ProductionLog');
 const StorageLog = require('../db/StorageLog');
 const ProcessingLog = require('../db/ProcessingLog');
-
-// test for making production log entries
-const makeProductionLogEntry = async (req, res) => {
-    try {
-        console.log(req.body)
-        await ProductionLog.create(req.body);
-        res.status(200).json({ success: true });
-    } catch (error) {
-        console.error(error);
-        return res.status(400).json({
-            message: "Something went wrong."
-        })
-    }
-}
+const Tank = require('../db/Tank');
+//const { transferFromProduction } = require('./warehousing');
 
 // @PATCH api/production/productionTransferLog
 // @desc transfer spirits out of production -> NOT TO STORAGE OR PROCESSING ACCOUNTS
@@ -94,6 +82,114 @@ const createMash = async (req, res) => {
         ferment.userId = req.user.id;
         ferment.distillData = {};
         const savedFerment = await Ferment.create(ferment);
+        res.json({
+            success: true,
+            id: ferment._id,
+            message: `${savedFerment.mashDate} has been added.`,
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(400).json({
+            message: "New ferment not added."
+        })
+    }
+}
+
+const redistillFromStorage = async (req, res) => {
+    try {
+        const distillate = await Tank.find({ _id: { $in: req.body.tanksTransferred } });
+        const distillData = [];
+        distillate.forEach(tank => distillData.push(tank.currentFill.distillData))
+
+        const ferment = {
+            mashDate: req.body.transferDate,
+            mashBill: 'redistilled from distillate in storage',
+            userId: req.user.id,
+            distillData: {},
+            lowWinesData: distillData,
+        }
+
+
+        const prodLog = {
+            transferDate: req.body.transferDate,
+            yearMonth: req.body.transferDate.slice(0,7),
+            spiritType: req.body.spiritType,
+            quantity: req.body.proofGallons,
+            processType: 'deposit',
+            description: 'productionReceived',
+            distillData: ferment.lowWinesData,
+            notes: req.body.notes,
+            userId: req.user.id,
+        }
+
+        const storageLog = {
+            transferDate: req.body.transferDate,
+            yearMonth: req.body.transferDate.slice(0,7),
+            spiritType: req.body.spiritType,
+            quantity: req.body.proofGallons,
+            processType: 'withdrawal',
+            description: 'storageToProduction',
+            distillData: ferment.lowWinesData,
+            notes: req.body.notes,
+            userId: req.user.id,
+        }
+
+        distillate.forEach(tank => {
+            tank.tankHistory.push(tank.currentFill);
+
+            tank.currentFill = {
+                duration: (new Date(req.body.transferDate) - new Date(tank.currentFill.fillDate))/(1000 * 60 * 60 * 24 * 365/12),
+                emptyDate: new Date(req.body.transferDate),
+                contents: '',
+                fillDate: null,
+                fillProof: 0,
+                wineGal: 0,
+                proofGal: 0,
+                distillData: [],
+                agingData: [],
+                duration: 0,
+                notes: ''
+            }
+        })
+
+        await distillate.forEach(x => x.save());
+        const savedFerment = await Ferment.create(ferment);
+        await ProductionLog.create(prodLog);
+        await StorageLog.create(storageLog);
+        res.json({
+            success: true,
+            id: ferment._id,
+            message: `${savedFerment.mashDate} has been added.`,
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(400).json({
+            message: "New ferment not added."
+        })
+    }
+}
+
+const redistillFromProduction = async (req, res) => {
+    try {
+        const lowWines = await Ferment.find({ _id: { $in: req.body.availableRuns } });
+        const distillData = [];
+        lowWines.forEach(ferment => {
+            distillData.push(ferment.distillData);
+        })
+        lowWines.map(ferment => {
+            ferment.transferred = true;
+        })
+
+        const ferment = {
+            mashDate: req.body.transferDate,
+            mashBill: 'redistilled from distillate in production',
+            userId: req.user.id,
+            distillData: {},
+            lowWinesData: distillData,
+        }
+        await lowWines.forEach(x => x.save());
+        const savedFerment = await Ferment.create(ferment);
+
         res.json({
             success: true,
             id: ferment._id,
@@ -280,7 +376,6 @@ const addStillDataPoint = async (req, res) => {
         } else if (req.body.type === 'checkbox') {
             ferment[req.body.stillKey] = req.body.data.data;
         } 
-        console.log(ferment)
         await ferment.save();
         res.json({
             success: true,
@@ -352,12 +447,13 @@ const stillCutStarts = async (req, res) => {
 module.exports = {
     getFerments,
     createMash, 
+    redistillFromStorage,
+    redistillFromProduction,
     addIngredient,
     setFermentTank,
     addFermentData,
     addStillDataPoint,
     stillMashData,
     stillCutStarts,
-    makeProductionLogEntry, 
     productionTransferLog
 }

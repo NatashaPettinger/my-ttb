@@ -34,6 +34,8 @@ export const editMaterialsLog = (payload, token) => api.patch('/rawMaterials/edi
 // Production requests
 export const getFerments = token => api.get('/production', { headers: authHeader(token) });
 export const createMash = (payload, token) => api.post('/production', payload, { headers: authHeader(token) });
+export const redistillFromStorage = (payload, token) => api.patch('/production/redistillFromStorage', payload, { headers: authHeader(token) });
+export const redistillFromProduction = (payload, token) => api.patch('/production/redistillFromProduction', payload, { headers: authHeader(token) });
 export const addIngredient = (payload, token) => api.patch('/production/addIngredient', payload, { headers: authHeader(token) });
 export const setFermentTank = (payload, token) => api.patch('production/setFermentTank', payload, { headers: authHeader(token) });
 export const addFermentData = (payload, token) => api.patch('production/addFermentData', payload, { headers: authHeader(token) });
@@ -79,6 +81,8 @@ const apis = {
     //production requests
     getFerments,
     createMash,
+    redistillFromStorage,
+    redistillFromProduction,
     addIngredient,
     setFermentTank,
     addFermentData,

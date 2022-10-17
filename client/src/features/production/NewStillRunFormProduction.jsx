@@ -60,7 +60,7 @@ const CreateMash = ({ reloadData, data }) => {
         : 
         <PostForm 
             reloadData={reloadData} 
-            formAction="createMash" 
+            formAction="redistillFromProduction" 
             buttonLabel="Start New Distillation" 
             formEntries={formEntries} 
             instructions="Use this form to redistill spirit from spirit that is still in the production account. ADD: checklist of available distillation runs to redistill."/>}
