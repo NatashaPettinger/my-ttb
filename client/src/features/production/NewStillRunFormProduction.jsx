@@ -2,12 +2,21 @@ import React from 'react';
 import {PostForm} from '../common';
 
 
-const CreateMash = ({ reloadData }) => {
+const CreateMash = ({ reloadData, data }) => {
     
+    const availableRuns = data.filter(ferment => ferment.distilled && !ferment.transferred);
+
     const formEntries = [
         {label: "Date:", 
         dbKey: "transferDate", 
         type: "date",},
+        {label: "Available to Redistill:", 
+        dbKey: "availableRuns", 
+        type: "select multiple", 
+        select: availableRuns.map(x => {
+            return {dbEntry: x._id, label: `Spirit distilled on ${new Date(x.distillData.distillDate).toDateString()}`}
+        })
+        },
         {label: "Spirit Type:", 
         dbKey: "spiritType", 
         type: "select", 
@@ -43,18 +52,40 @@ const CreateMash = ({ reloadData }) => {
     ]
     
     return (
+        <>
+        {availableRuns.length === 0? 
+        <div className="p-5">
+            <p>All still runs have been transferred out of the production account. No distillate is available for transfer.</p>
+        </div>
+        : 
         <PostForm 
-        reloadData={reloadData} 
-        formAction="createMash" 
-        buttonLabel="Start New Distillation" 
-        formEntries={formEntries} 
-        instructions="Use this form to redistill spirit from spirit that is still in the production account. ADD: checklist of available distillation runs to redistill."/>
+            reloadData={reloadData} 
+            formAction="createMash" 
+            buttonLabel="Start New Distillation" 
+            formEntries={formEntries} 
+            instructions="Use this form to redistill spirit from spirit that is still in the production account. ADD: checklist of available distillation runs to redistill."/>}
+        </>
     )
 }
 
-    
-export default CreateMash
+function DataLoading({ data, loading, reloadData }) {
+    if (loading) {
+        return (
+            <p>Loading...</p>
+        );
+    }
 
+    return (
+    <>
+        <CreateMash
+            data={data}
+            reloadData={reloadData}/>
+    </>
+    );
+}
+
+
+export default DataLoading
 
 
 

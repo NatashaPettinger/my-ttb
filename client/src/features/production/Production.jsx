@@ -41,9 +41,13 @@ const Production = () => {
               <div label="Start New Mash">
                 <NewMashForm reloadData={getData}/>
                 <div className="divider">OR</div>
-                <NewStillRunFormTransfer reloadData={getData}/>
+                <NewStillRunFormTransfer 
+                  reloadData={getData}/>
                 <div className="divider">OR</div>
-                <NewStillRunFormProduction reloadData={getData}/>
+                <NewStillRunFormProduction 
+                  data={data} 
+                  loading={loading}
+                  reloadData={getData}/>
               </div>
               <div label="Transfer Spirits out of Production">
                 <TransferFromProductionForm 

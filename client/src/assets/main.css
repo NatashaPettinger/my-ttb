@@ -2593,6 +2593,18 @@ html {
   color: hsl(var(--ac) / var(--tw-text-opacity));
 }
 
+.btm-nav>*.disabled, 
+    .btm-nav>*.disabled:hover, 
+    .btm-nav>*[disabled], 
+    .btm-nav>*[disabled]:hover {
+  pointer-events: none;
+  --tw-border-opacity: 0;
+  background-color: hsl(var(--n) / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.1;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  --tw-text-opacity: 0.2;
+}
+
 .btm-nav>* .label {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -4107,6 +4119,10 @@ body[dir="rtl"] .checkbox:checked,
   margin-top: 2.5rem;
 }
 
+.ml-5 {
+  margin-left: 1.25rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -4409,12 +4425,12 @@ body[dir="rtl"] .checkbox:checked,
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
-.bg-darkblue-500 {
-  background-color: rgba(35, 54, 61, 0.7);
-}
-
 .bg-darkblue-100 {
   background-color: rgba(35, 54, 61, 0.1);
+}
+
+.bg-darkblue-500 {
+  background-color: rgba(35, 54, 61, 0.7);
 }
 
 .fill-current {
@@ -4677,12 +4693,12 @@ body[dir="rtl"] .checkbox:checked,
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-darkblue-700:hover {
-  background-color: rgba(35, 54, 61, 1);
-}
-
 .hover\:bg-darkblue-200:hover {
   background-color: rgba(35, 54, 61, 0.2);
+}
+
+.hover\:bg-darkblue-700:hover {
+  background-color: rgba(35, 54, 61, 1);
 }
 
 .hover\:text-gray-500:hover {

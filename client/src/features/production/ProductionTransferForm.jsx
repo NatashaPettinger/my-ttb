@@ -1,40 +1,11 @@
 import React from "react";
 import {PostForm} from '../common'
 
-{/* <Row>
-                <p>If spirit is whiskey and it is being transferred to storage, choose the grain/whiskey type and tank type that it will be housed in this month:</p>
-            </Row>
-            <Row>
-            <Col>
-                <label htmlFor="tankType">Deposit tank type:</label>
-            </Col>
-            <Col>
-                <select {...register("tankType")}>
-                    <option value="newCoop" key="neutralRedistilled">Used to fill New Coop (this month)</option>
-                    <option value="usedCoop" key="neutralLow">Used to fill Used Coop (this month)</option>
-                    <option value="tank" key="other">Held in a tank until cooperage received</option>
-                </select>
-            </Col>
-            </Row>
-            <Row>
-            <Col>
-                <label htmlFor="grainType">Grain/whiskey type:</label>
-            </Col>
-            <Col>
-                <select {...register("grainType")}>
-                    <option value="wheat" key="wheat">Wheat</option>
-                    <option value="rye" key="rye">Rye</option>
-                    <option value="bourbon" key="bourbon">Bourbon</option>
-                    <option value="corn" key="corn">Corn</option>
-                    <option value="oat" key="oat">Oat</option>
-                    <option value="american" key="american">American</option>
-                    <option value="malt" key="malt">Malt</option>
-                    <option value="barley" key="barley">Barley</option>
-                </select>
-            </Col>
-            </Row> */}
 
 const TransferFromProductionForm = ({ data, reloadData }) => {
+
+    const availableRuns = data.filter(ferment => ferment.distilled && !ferment.transferred);
+    
     const formEntries = [
         {label: "Transfer Date:", 
         dbKey: "transferDate", 
@@ -58,6 +29,34 @@ const TransferFromProductionForm = ({ data, reloadData }) => {
             {dbEntry:"neutralRedistilled", label: "Neutral spirits made from redistilled spirits"},
             {dbEntry:"neutralLow", label: "Spirits distilled to under 190˚"},
             {dbEntry:"other", label: "Other"},]},
+        {label: "Available to Transfer:", 
+        dbKey: "availableRuns", 
+        type: "select multiple", 
+        select: availableRuns.map(x => {
+            return {dbEntry: x._id, label: `Spirit distilled on ${new Date(x.distillData.distillDate).toDateString()}`}
+        })
+        },
+        {label: "Tank Type:", 
+        dbKey: "tankType", 
+        type: "select", 
+        select: [
+            {dbEntry:"na", label: "If whiskey, report cooperage for whiskey type"},
+            {dbEntry:"newCoop", label: "Used to fill New Coop (this month)"},
+            {dbEntry:"usedCoop",  label: "Used to fill Used Coop (this month)"},
+            {dbEntry:"tank",  label: "Held in a tank until cooperage received"},]},
+        {label: "Grain/whiskey type:", 
+        dbKey: "grainType", 
+        type: "select", 
+        select: [
+            {dbEntry:"wheat", label:"Wheat"},
+            {dbEntry:"rye", label:"Rye"},
+            {dbEntry:"bourbon", label:"Bourbon"},
+            {dbEntry:"corn", label:"Corn"},
+            {dbEntry:"oat", label:"Oat"},
+            {dbEntry:"american", label:"American"},
+            {dbEntry:"malt", label:"Malt"},
+            {dbEntry:"barley", label:"Barley"},
+        ]},
         {label: "Volume (proof gallons):", 
         dbKey: "quantity", 
         type: "number", 
@@ -92,7 +91,6 @@ const TransferFromProductionForm = ({ data, reloadData }) => {
     ];
 
 
-    const availableRuns = data.filter(ferment => ferment.distilled && !ferment.transferred);
 
 
   return (

@@ -1,8 +1,9 @@
-import React from 'react';
-import {PostForm} from '../common';
+import React, { useEffect } from 'react'
+import api from '../api'
+import { PostForm } from '../common'
+import useAuth from '../api/useAuth'
 
-
-const CreateMash = ({ reloadData }) => {
+const CreateMash = ({ reloadData, data }) => {
     
     const formEntries = [
         {label: "Transfer Date:", 
@@ -27,6 +28,13 @@ const CreateMash = ({ reloadData }) => {
             {dbEntry:"neutralRedistilled", label: "Neutral spirits made from redistilled spirits"},
             {dbEntry:"neutralLow", label: "Spirits distilled to under 190˚"},
             {dbEntry:"other", label: "Other"},]},
+        {label: "Storage Spirits Available to Redistill:", 
+        dbKey: "tanksTransferred", 
+        type: "select multiple", 
+        select: data.map(x => {
+            return {dbEntry: x._id, label: `${x.tankInfo.tankType} ${x.tankInfo.tankNumber}: Proof gallons: ${x.currentFill.proofGal}`}
+        })
+        },
         {label: "Volume (proof gallons):", 
         dbKey: "quantity", 
         type: "number", 
@@ -37,7 +45,7 @@ const CreateMash = ({ reloadData }) => {
         type: "select", 
         select: [
             {dbEntry: "storageToProduction", label: "Transferred from Storage for Redistillation"},
-            {dbEntry: "processingTransferToProduction", label: "Transferred from Processing for Redistillation"}]},
+            /* {dbEntry: "processingTransferToProduction", label: "Transferred from Processing for Redistillation"} */]},
             
         {label: "Notes:", 
         dbKey: "notes", 
@@ -55,8 +63,53 @@ const CreateMash = ({ reloadData }) => {
 }
 
     
-export default CreateMash
+
+function DataLoading({ data, loading, reloadData }) {
+    if (loading) {
+      return (
+            <p>Loading...</p>
+      );
+    }
+    // error handling here :)
+  
+    return (
+    <>
+        <CreateMash
+            data={data}
+            reloadData={reloadData}/>
+    </>
+    );
+}
 
 
 
+function NewMashForm({ reloadData }){
+    const [loading, setLoading] = React.useState(true);
+    const [data, setData] = React.useState([]);
+    const { token } = useAuth();
+  
+    useEffect(() => {
+      getData();
+    }, []);
+  
+    const getData = async () => {
+      try {
+        const res = await api.getTanks(token)
+        setData(res.data.data.filter(x => x.currentFill.wineGal > 0));
+        setLoading(false);
+      } catch (e) {
+        console.error(new Error(`seems your fetch didn't work`))
+      }
+    };
+  
+    return (
+      <DataLoading
+        data={data}
+        loading={loading}
+        reloadData={reloadData}
+      />
+    );
+}
+
+export default NewMashForm
 
