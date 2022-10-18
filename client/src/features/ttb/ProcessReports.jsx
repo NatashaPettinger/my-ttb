@@ -10,6 +10,8 @@ const FormElement = ({ modalId, reloadData }) => {
         }
     ]
     
+    const closeModal = () => document.getElementById(modalId).checked = false;
+    
     return (
         <>
             <input type="checkbox" id={modalId} className="modal-toggle" />
@@ -24,6 +26,7 @@ const FormElement = ({ modalId, reloadData }) => {
                     formAction="processTTBReports"
                     buttonLabel="Process Reports"
                     formEntries={formEntries}
+                    closeModal={closeModal}
                 />
                 </div>
             </div>

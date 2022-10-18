@@ -260,8 +260,8 @@ const ProductionOperationsTable = ({ row }) => {
               </thead>
               <tbody>
                 {row.productionPartIII? row.productionPartIII.map((x,i) => (
-                  <tr>
-                    <th>{i + 1}. {x.grain}</th>
+                  <tr key={x._id}>
+                    <th>{i + 1}. {x.grainType}</th>
                     <td>{x.newCoop}</td>
                     <td>{x.usedCoop}</td>
                     <td>{x.tanks}</td>
@@ -384,12 +384,12 @@ const ProductionOperationsTable = ({ row }) => {
               <tbody>
                 <tr><td colSpan={3}>Grain and Grain Products</td></tr>
                   {row.productionPartVI? row.productionPartVI.map((x,i) => x.uom === 'lbs'?
-                    (<tr>
+                    (<tr key={x._id}>
                       <th>{i + 1}. {x.kind}</th>
                       <td>{x.quantity}</td>
                       <td></td>
                     </tr>):
-                    (<tr>
+                    (<tr key={x._id}>
                       <th>{i + 1}. {x.kind}</th>
                       <td></td>
                       <td>{x.quantity}</td>

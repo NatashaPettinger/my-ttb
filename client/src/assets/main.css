@@ -4243,12 +4243,12 @@ body[dir="rtl"] .checkbox:checked,
   width: 50%;
 }
 
-.max-w-xs {
-  max-width: 20rem;
-}
-
 .max-w-7xl {
   max-width: 80rem;
+}
+
+.max-w-xs {
+  max-width: 20rem;
 }
 
 .flex-1 {
@@ -4747,6 +4747,10 @@ body[dir="rtl"] .checkbox:checked,
 @media (min-width: 640px) {
   .sm\:col-span-3 {
     grid-column: span 3 / span 3;
+  }
+
+  .sm\:col-span-6 {
+    grid-column: span 6 / span 6;
   }
 
   .sm\:col-span-1 {

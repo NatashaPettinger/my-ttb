@@ -19,27 +19,40 @@ const getReports = async(req,res) => {
 
 const processReports = async(req,res) => {
     try {
+        console.log(req.body)
         const ttb = {
-            yearMonth: req.body.date.slice(0,7),
+            yearMonth: req.body.data.date.slice(0,7),
         }
         //-------------------PRODUCTION-OPERATIONS-------------------------------
+        // don't include 'productionReceived' in these totals
         const productionLogs = await ProductionLog.find({ yearMonth: ttb.yearMonth });
         for (let log of productionLogs){
-            if (!ttb.productionTotals) {
+            // sum spirit type columns 
+            if (!ttb.productionTotals && log.description !== 'productionReceived') {
                 ttb.productionTotals = {};
-            };
-            if (!ttb[log.description]) {
-                ttb[log.description] = {};
-                ttb[log.description][log.spiritType] = log.quantity;
-                ttb[log.description].total = log.quantity;
                 ttb.productionTotals[log.spiritType] = log.quantity;
+            } else if (log.description !== 'productionReceived') {
+                ttb.productionTotals[log.spiritType]? 
+                    ttb.productionTotals[log.spiritType] += log.quantity: 
+                    ttb.productionTotals[log.spiritType] = log.quantity;
+            };
+            
+            // add quantities by spirit type
+                //this line isn't working for 'productionReceived' description:
+            if (!ttb[log.description]) {
+                ttb[log.description] = {
+                    total: log.quantity
+                };
+                ttb[log.description][log.spiritType] = log.quantity;
             } else {
-                ttb[log.description][log.spiritType]? ttb[log.description][log.spiritType] += log.quantity: ttb[log.description][log.spiritType] = log.quantity;
+                ttb[log.description][log.spiritType]? 
+                    ttb[log.description][log.spiritType] += log.quantity: 
+                    ttb[log.description][log.spiritType] = log.quantity;
                 ttb[log.description].total += log.quantity;
-                ttb.productionTotals[log.spiritType]? ttb.productionTotals[log.spiritType] += log.quantity: ttb.productionTotals[log.spiritType] = log.quantity;
             }
         }
         ttb.productionTotals.total = Object.values(ttb.productionTotals).reduce((a,b)=>a+b,0);
+
         //-------------------PRODUCTION-PART-II-NEUTRAL-SPIRITS----------------------
         if (ttb.productionTotals.neutralGrain || ttb.productionTotals.neutralFruit || ttb.productionTotals.neutralMolasses || ttb.productionTotals.neutralRedistilled){
             ttb.productionPartII = {
@@ -50,26 +63,30 @@ const processReports = async(req,res) => {
             }
         }
         //-------------------PRODUCTION-PART-III-WHISKEY-----------------------
+        // don't include 'productionReceived' in these totals
+        ttb.productionPartIII = [];
         if (ttb.productionToStorage && ttb.productionToStorage.whiskeyStrong > 0 ){
             ttb.productionPartIII.push({
-                grain: 'light',
-                newCoop: productionLogs.filter(x => x.spiritType === 'whiskeyStrong' && x.tankType === 'newCoop').reduce((a,b)=>a + b.quantity, 0),
-                usedCoop: productionLogs.filter(x => x.spiritType === 'whiskeyStrong' && x.tankType === 'usedCoop').reduce((a,b)=>a + b.quantity, 0),
-                tanks: productionLogs.filter(x => x.spiritType === 'whiskeyStrong' && x.tankType === 'tank').reduce((a,b)=>a + b.quantity, 0),
+                grainType: 'Light',
+                newCoop: productionLogs.filter(x => x.description !== 'productionReceived' && x.spiritType === 'whiskeyStrong' && x.tankType === 'newCoop').reduce((a,b)=>a + b.quantity, 0),
+                usedCoop: productionLogs.filter(x => x.description !== 'productionReceived' && x.spiritType === 'whiskeyStrong' && x.tankType === 'usedCoop').reduce((a,b)=>a + b.quantity, 0),
+                tanks: productionLogs.filter(x => x.description !== 'productionReceived' && x.spiritType === 'whiskeyStrong' && x.tankType === 'tank').reduce((a,b)=>a + b.quantity, 0),
             })
         }
         if (ttb.productionToStorage && ttb.productionToStorage.whiskeyWeak > 0 ){
-            const grainArray = [];
-            const grainWhiskey = productionLogs.filter(x => x.spiritType === 'whiskeyWeak');
+            let grainArray = [];
+            const grainWhiskey = productionLogs.filter(x => x.description !== 'productionReceived' && x.spiritType === 'whiskeyWeak');
             for (let obj of grainWhiskey){
-                if (!grainArray.includes(obj.grainType)) grainArray.push(obj.grainType);
+                if (grainArray.indexOf(obj.grainType.toString()) === -1){
+                    grainArray.push(obj.grainType.toString());
+                } 
             }
             for (let grain of grainArray){
                 ttb.productionPartIII.push({
-                    grain: grain,
-                    newCoop: grainWhiskey.filter(x => x.tankType === 'newCoop' && x.grainType === grain).reduce((a,b)=>a + b.quantity, 0),
-                    usedCoop: grainWhiskey.filter(x => x.tankType === 'usedCoop' && x.grainType === grain).reduce((a,b)=>a + b.quantity, 0),
-                    tanks: grainWhiskey.filter(x => x.tankType === 'tank' && x.grainType === grain).reduce((a,b)=>a + b.quantity, 0),
+                    grainType: grain[0].toUpperCase() + grain.slice(1),
+                    newCoop: grainWhiskey.filter(x => x.tankType === 'newCoop' && x.grainType == grain.toString()).reduce((a,b)=>a + b.quantity, 0),
+                    usedCoop: grainWhiskey.filter(x => x.tankType === 'usedCoop' && x.grainType == grain.toString()).reduce((a,b)=>a + b.quantity, 0),
+                    tanks: grainWhiskey.filter(x => x.tankType === 'tank' && x.grainType == grain.toString()).reduce((a,b)=>a + b.quantity, 0),
                 })
             }
         }
@@ -112,28 +129,47 @@ const processReports = async(req,res) => {
         const storageLogs = await StorageLog.find({ yearMonth: ttb.yearMonth });
         for (let log of storageLogs){
             if (!ttb.storageTotal6){
-                ttb.storagetTotal6 = {};
+                ttb.storageTotal6 = {
+                    total: 0,
+                };
             }
             if (!ttb.storageTotal24){
-                ttb.storagetTotal24 = {};
+                ttb.storageTotal24 = {
+                    total: 0,
+                };
             }
+
             if (!ttb[log.description]) {
-                ttb[log.description] = {};
+                ttb[log.description] = {
+                    total: log.quantity
+                };
                 ttb[log.description][log.spiritType] = log.quantity;
-                ttb[log.description].total = log.quantity;
-                if (['depositedInStorage',
-                'storageRecFromCustoms',
-                'storageReturned'].includes(log.description)){
-                    ttb.storageTotal6[log.spiritType]? ttb.storageTotal6[log.spiritType] += log.quantity: ttb.storageTotal6[log.spiritType] = log.quantity;
-                } else ttb.storageTotal24[log.spiritType]? ttb.storageTotal24[log.spiritType] += log.quantity: ttb.storageTotal24[log.spiritType] = log.quantity;
             } else {
-                ttb[log.description][log.spiritType]? ttb[log.description][log.spiritType] += log.quantity: ttb[log.description][log.spiritType] = log.quantity;
-                if (['depositedInStorage',
+                ttb[log.description][log.spiritType]? 
+                    ttb[log.description][log.spiritType] += log.quantity: 
+                    ttb[log.description][log.spiritType] = log.quantity;
+                ttb[log.description].total += log.quantity;
+            }
+
+            if (['depositedInStorage',
                 'storageRecFromCustoms',
                 'storageReturned'].includes(log.description)){
-                    ttb.storageTotal6[log.spiritType]? ttb.storageTotal6[log.spiritType] += log.quantity: ttb.storageTotal6[log.spiritType] = log.quantity;
-                } else ttb.storageTotal24[log.spiritType]? ttb.storageTotal24[log.spiritType] += log.quantity: ttb.storageTotal24[log.spiritType] = log.quantity;
-            }
+                if (ttb.storageTotal6[log.spiritType]){
+                    ttb.storageTotal6[log.spiritType] += log.quantity;
+                    ttb.storageTotal6.total += log.quantity;
+                } else {
+                    ttb.storageTotal6[log.spiritType] = log.quantity;
+                    ttb.storageTotal6.total = log.quantity;
+                }
+            } else {
+                if (ttb.storageTotal24[log.spiritType]){
+                    ttb.storageTotal24[log.spiritType] += log.quantity;
+                    ttb.storageTotal24.total += log.quantity;
+                } else {
+                    ttb.storageTotal24[log.spiritType] = log.quantity;
+                    ttb.storageTotal24.total = log.quantity;
+                }
+            } 
         }
 
 

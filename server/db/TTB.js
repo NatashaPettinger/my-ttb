@@ -65,7 +65,7 @@ const ProductionPartII = new mongoose.Schema({
     molasses: Number,
 })
 const ProductionPartIII = new mongoose.Schema({
-    grain: String,
+    grainType: String,
     newCoop: Number,
     usedCoop: Number,
     tanks: Number,
