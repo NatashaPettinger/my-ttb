@@ -17,11 +17,18 @@ const getReports = async(req,res) => {
     }
 }
 
+const deleteReports = async(req,res) => {
+    try {
+        const ttb = await TTB.findOneAndDelete({ _id: req.body.id });
+        res.status(200).json({ success: true, data: ttb });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 const processReports = async(req,res) => {
     try {
         console.log(req.body)
-
-        //const previousMonth = TTB.findOne({ yearMonth: prevMonth })
         const ttb = {
             yearMonth: req.body.data.date.slice(0,7),
         }
@@ -128,6 +135,16 @@ const processReports = async(req,res) => {
 
         //add in first of month & last of month and totals -> save a log of the start of the month each time it processes.
         //-------------------STORAGE-OPERATIONS-------------------------------
+
+        const prevMonth = ttb.yearMonth.endsWith('12')? 
+            (+ttb.yearMonth.split('-')[0] + 1) + '-01': 
+            ttb.yearMonth.slice(0,5) + (+ttb.yearMonth.slice(5) + 1).padStart(2, '0');
+        const previousMonth = TTB.findOne({ yearMonth: prevMonth });
+        if (previousMonth) {
+            ttb.storageFirstOfMonth = previousMonth.storageEndOfMonth;
+            ttb.storageEndOfMonth = {...previousMonth.storageEndOfMonth};
+        }
+
         const storageLogs = await StorageLog.find({ yearMonth: ttb.yearMonth });
         for (let log of storageLogs){
             if (!ttb.storageTotal6){
@@ -156,6 +173,9 @@ const processReports = async(req,res) => {
             if (['depositedInStorage',
                 'storageRecFromCustoms',
                 'storageReturned'].includes(log.description)){
+                storage.endOfMonth[log.spiritType]? 
+                    storage.endOfMonth[log.spiritType] += log.quantity:
+                    storage.endOfMonth[log.spiritType] = log.quantity;
                 if (ttb.storageTotal6[log.spiritType]){
                     ttb.storageTotal6[log.spiritType] += log.quantity;
                     ttb.storageTotal6.total += log.quantity;
@@ -164,6 +184,9 @@ const processReports = async(req,res) => {
                     ttb.storageTotal6.total = log.quantity;
                 }
             } else {
+                storage.endOfMonth[log.spiritType]? 
+                    storage.endOfMonth[log.spiritType] -= log.quantity:
+                    storage.endOfMonth[log.spiritType] = -log.quantity;
                 if (ttb.storageTotal24[log.spiritType]){
                     ttb.storageTotal24[log.spiritType] += log.quantity;
                     ttb.storageTotal24.total += log.quantity;
@@ -215,6 +238,28 @@ const processReports = async(req,res) => {
         //add in first of month & last of month and totals
 
         //add in first of month & last of month and totals
+
+        //-------------------PROCESSING-OPERATIONS-------------------------------
+        const ttbYear = ttb.yearMonth.slice(0,5);
+        if (ttb.yearMonth.endsWith('03') ||
+            ttb.yearMonth.endsWith('06') ||
+            ttb.yearMonth.endsWith('09') ||
+            ttb.yearMonth.endsWith('12')) {
+                const quarter = (
+                    ttb.yearMonth.endsWith('03')? [ ttbYear + '01', ttbYear + '02', ttbYear + '03']:
+                    ttb.yearMonth.endsWith('06')? [ ttbYear + '04', ttbYear + '05', ttbYear + '06']:
+                    ttb.yearMonth.endsWith('09')? [ ttbYear + '07', ttbYear + '08', ttbYear + '09']:
+                    [ ttbYear + '10', ttbYear + '11', ttbYear + '12'])
+        }
+
+        const exciseTax = await TTB.find({ ttbYear: {$in: quarter} });
+
+        const processingDue = exciseTax.reduce((sum, current) => sum + current.processingBottled.total, 0);
+        const productionDue = exciseTax.reduce((sum, current) => sum + current.productionTaxPayment.total, 0);
+        const storageDue = exciseTax.reduce((sum, current) => sum + current.storageTaxpaid.total, 0);
+
+        ttb.exciseTax = (processingDue + productionDue + storageDue) * 2.7;
+
         ttb.userId = req.user.id;
         console.log(ttb)
         await TTB.create(ttb);
@@ -226,5 +271,6 @@ const processReports = async(req,res) => {
 
 module.exports = {
     getReports,
+    deleteReports,
     processReports,
 }

@@ -193,6 +193,9 @@ const TTBSchema = new mongoose.Schema({
     processingWineGalBottled: Alcs,
     processingWineGalBottledInBond: Alcs,
     processingBottledForExport: Alcs,
+
+    exciseTax: Number,
+
     userId: {
         type: String,
         required: false,

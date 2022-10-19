@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs, Table } from '../common'
-import { ProcessingOperationsTable, ProcessReports, ProductionOperationsTable, StorageOperationsTable } from '.'
+import { ExciseTaxDue, ProcessingOperationsTable, ProcessReports, ProductionOperationsTable, StorageOperationsTable } from '.'
 
 
 const TTBTable = ({ data }) => {
@@ -48,10 +48,10 @@ const TTBTable = ({ data }) => {
                   <ProcessingOperationsTable row={row.original}/>
                 </div>
               </div>
-              <div label="Excise Tax Return">
-                <div className="bg-base-100 p-5">
-                  {/* <ExciseTaxForm row={row.original}/> */}
-                </div>
+                <div label="Excise Tax Return">
+                  <div className="bg-base-100 p-5">
+                    <ExciseTaxDue row={row.original}/>
+                  </div>
               </div>
             </Tabs>
         ),
