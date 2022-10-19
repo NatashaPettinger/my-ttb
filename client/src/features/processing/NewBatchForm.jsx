@@ -20,8 +20,12 @@ function ProcessingForm({ data, reloadData }){
                 'label': `${tank.tankInfo.tankType[0].toUpperCase() + tank.tankInfo.tankType.slice(1)} ${tank.tankInfo.tankNumber} | Tank Contents: ${tank.currentFill.contents}`}
             )),
         },{
-            dbKey: 'batchType',
+            dbKey: "batchType",
             label: "Batch Type:",
+            type: 'text'
+        },{
+            dbKey: 'spiritType',
+            label: "Spirit Type:",
             type: 'select',
             select: [
                 {dbEntry: "neutral", label: "ALCOHOL AND NEUTRAL SPIRITS (Other than vodka)"},
@@ -44,6 +48,15 @@ function ProcessingForm({ data, reloadData }){
                 {dbEntry: "cocktail", label: "COCKTAILS AND MIXED DRINKS"},
                 {dbEntry: "tequila", label: "TEQUILA"},
             ] 
+        },{
+          dbKey: 'description',
+          label: "Process Description:",
+          type: 'select',
+          select: [
+              {dbEntry: 'processingWineGalBottled', label: "BOTTLED (EXCLUDING BOTTLED IN BOND AND FOR EXPORT)"},
+              {dbEntry: 'processingWineGalBottledInBond', label: "BOTTLED IN BOND (EXCLUED EXPORT)"},
+              {dbEntry: 'processingBottledForExport', label: "BOTTLED FOR EXPORT"},
+          ] 
         },{
             dbKey: "batchNumber",
             label: "Batch Number:",

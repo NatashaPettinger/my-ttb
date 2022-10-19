@@ -396,17 +396,6 @@ const ProductionOperationsTable = ({ row }) => {
                     </tr>)) :null}
               </tbody>
             </table>
-            <h2>What we have:</h2>
-            <ul>
-              <li>Find tanks where currentFill.fillDate falls within that month, check if tankHistory.length === 0. these are newly filled barrels that month, so can fill in part III accordingly</li>
-              <li>Find all tanks where tankHistory.length === 0. These are all new coop. If contents === wheat, then add them to the new coop form on production.</li>
-              <li>Find all tanks where they're totes.</li>
-              <li>Find all tanks where tankHistory.length more than 0, these are the used coops</li>
-              <li>TIB's are all tanks where there is no distillation history, that were filled that month</li>
-              <li>To get the production data, sum over the array with empty dates between the start and end of the month. The contents will be determined there as well. </li>
-              <li>For the materials used section in form 40, go to the use logs in the Raw Materials collection.</li>
-              <li></li>
-            </ul>
         </>
     )
 }

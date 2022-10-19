@@ -38,10 +38,11 @@ const ProcessingLog = new mongoose.Schema({
         enum: ['bottled', 'packaged', 'bottled-in-bond', 'bulk']
     },
     quantity: Number, //proofGallons
+    quantityWG: Number, //wineGallons
     tankId: String,
     processType: {
         type: String,
-        enum: ['withdrawal', 'received']
+        enum: ['withdrawal', 'deposit']
     },
     description: {
         type: String,
@@ -52,7 +53,7 @@ const ProcessingLog = new mongoose.Schema({
             'processingWineAndSpirits', // line 5 && 10 should be equal
             'processingDumpedForFurtherProc',
             'processingGainsBulk',
-            'processingBottledOrPackaged',
+            'processingBottledOrPackaged', // should equal 'processingBottledTotal' + 'processingPackagedTotal'
             'processingUsedForDenaturation',
             'processingTIB',
             'processingWithdrawnTaxDetermined',

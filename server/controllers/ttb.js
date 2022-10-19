@@ -20,6 +20,8 @@ const getReports = async(req,res) => {
 const processReports = async(req,res) => {
     try {
         console.log(req.body)
+
+        //const previousMonth = TTB.findOne({ yearMonth: prevMonth })
         const ttb = {
             yearMonth: req.body.data.date.slice(0,7),
         }
@@ -176,22 +178,39 @@ const processReports = async(req,res) => {
         //-------------------PROCESSING-OPERATIONS-------------------------------
         const processingLogs = await ProcessingLog.find({ yearMonth: ttb.yearMonth });
         for (let log of processingLogs){
-            if (['processingBulkSpiritsDumped',
-            'processingBottled',
-            'processingWineGalBottled',
+            if (['processingWineGalBottled',
             'processingWineGalBottledInBond',
             'processingBottledForExport',].includes(log.description)){
                 if (!ttb[log.description]) {
-                    ttb[log.description] = {};
-                    ttb[log.description][log.spiritType] = log.quantity;
-                    ttb[log.description].total = log.quantity;
+                    ttb[log.description] = {
+                        total: log.quantityWG,
+                    };
+                    ttb[log.description][log.spiritType] = log.quantityWG;
                 } else {
-                    ttb[log.description][log.spiritType]? ttb[log.description][log.spiritType] += log.quantity: ttb[log.description][log.spiritType] = log.quantity;
-                    ttb[log.description].total += log.quantity;
+                    ttb[log.description][log.spiritType]? 
+                        ttb[log.description][log.spiritType] += log.quantityWG: 
+                        ttb[log.description][log.spiritType] = log.quantityWG;
+                    ttb[log.description].total += log.quantityWG;
                 }
-            } else {
+
+                if (!ttb.processingBottled) {
+                    ttb.processingBottled = {
+                        total: log.quantity,
+                    }
+                    ttb.processingBottled[log.spiritType] = log.quantity;
+                } else {
+                    ttb.processingBottled[log.spiritType]? 
+                        ttb.processingBottled[log.spiritType] += log.quantity:
+                        ttb.processingBottled[log.spiritType] = log.quantity;
+                    ttb.processingBottled[log.spiritType] += log.quantity;
+                }
+                //add it all to the dumped for processing. For totals there, fill in the dumped into processing sum as well
+
+            } 
+            // optimization: make it so processing account can have quantity on hand at start and end of month, and so that alcohol can be transferred out.
+            /* else {
                 ttb[log.description]? ttb[log.description] += log.quantity: ttb[log.description] = log.quantity;
-            }
+            } */
         }
         //add in first of month & last of month and totals
 

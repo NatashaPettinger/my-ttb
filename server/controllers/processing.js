@@ -30,21 +30,22 @@ processBatch = async (req, res) => {
         batch.losses = batch.currentFill.proofGal - batch.totalProofGal;
 
         const procLog = {
-            transferDate: req.body.transferDate,
-            yearMonth: req.body.transferDate.slice(0,7),
+            transferDate: req.body.bottleDate,
+            yearMonth: req.body.bottleDate.slice(0,7),
             spiritType: req.body.spiritType,
             quantity: batch.totalProofGal, //proofGallons
+            quantityWG: batch.totalWineGal, //wineGallons
             proof: req.body.finalProof,
             storageTankId: tank._id,
             processType: 'deposit',
-            description: 'processingBottledTotal',
+            description: req.body.description,
             distillData: batch.currentFill.distillData,
             userId: req.user.id
         };
 
         const storLog1 = {
-            transferDate: req.body.transferDate,
-            yearMonth: req.body.transferDate.slice(0,7),
+            transferDate: req.body.bottleDate,
+            yearMonth: req.body.bottleDate.slice(0,7),
             spiritType: req.body.spiritType,
             quantity: batch.totalProofGal, //proofGallons
             proof: req.body.finalProof,
@@ -55,8 +56,8 @@ processBatch = async (req, res) => {
             userId: req.user.id
         };
         const storLog2 = {
-            transferDate: req.body.transferDate,
-            yearMonth: req.body.transferDate.slice(0,7),
+            transferDate: req.body.bottleDate,
+            yearMonth: req.body.bottleDate.slice(0,7),
             spiritType: req.body.spiritType,
             quantity: batch.losses, //proofGallons
             proof: req.body.finalProof,
@@ -86,7 +87,7 @@ processBatch = async (req, res) => {
         await Processing.create(batch);
         await tank.save();
         await StorageLog.create([storLog1, storLog2]);
-        await ProcessingLog.create(prodLog);
+        await ProcessingLog.create(procLog);
         
         
         res.status(200).json({ success: true });
