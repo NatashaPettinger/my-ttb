@@ -230,7 +230,7 @@ const transferToNewTank = async (req, res) => {
         endTank.currentFill.contents = startTank.currentFill.contents;
         endTank.currentFill.fillDate = req.body.data.emptyDate;
         endTank.currentFill.fillProof = req.body.data.currentFill.fillProof;
-        endTank.currentFill.wineGal = req.body.data.currentFill.wineGal + req.body.data.currentFill.waterAdded;
+        endTank.currentFill.wineGal = +req.body.data.currentFill.wineGal + +req.body.data.currentFill.waterAdded;
         endTank.currentFill.proofGal = endTank.currentFill.wineGal * endTank.currentFill.fillProof/100;
         endTank.currentFill.distillData = Array.from(startTank.currentFill.distillData);
         endTank.currentFill.agingData = agingData;

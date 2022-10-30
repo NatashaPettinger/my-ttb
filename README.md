@@ -9,12 +9,12 @@
   <p align="center">
     Software to help small distilleries manage inventory, record manufacturing data, optimize yields, and fill out federal reporting paperwork.
     <br />
-    <a href="https://github.com/natashapettinger/myttb/wiki/user-flow"><strong>User Flow in Wiki »</strong></a>
+    <a href="#"><strong>User Flow in Wiki »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/natashapettinger/myttb-client">View Demo</a>
+    <a href="#">View Demo</a>
     ·
-    <a href="https://github.com/natashapettinger/myttb-client/issues">Report Bug</a>
+    <a href="#">Report Bug</a>
     ·
     <a href="https://github.com/natashapettinger/myttb-client/issues">Request Feature</a>
   </p>
@@ -217,12 +217,6 @@ See the [open issues](https://github.com/natashapettinger/myttb/issues) for a fu
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-## Lessons Learned
-🌱 There will always be time to refactor. Getting a working MVP is the priority.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 

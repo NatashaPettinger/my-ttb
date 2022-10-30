@@ -314,7 +314,6 @@ const addFermentData = async (req, res) => {
 
 const addStillDataPoint = async (req, res) => {
     try {
-        console.log(req.body)
         const ferment = await Ferment.findOne({ _id: req.body.id })
          
         if (req.body.stillKey === 'distillDate') {

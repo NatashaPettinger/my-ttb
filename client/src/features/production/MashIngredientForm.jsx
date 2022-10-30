@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import api from '../api'
 import { ModalForm } from '../common'
+import useAuth from '../api/useAuth';
 
 
 const MashForm = ({ row, ingredients, reloadData, modalId }) => {
@@ -73,6 +74,7 @@ function SubRows({ row, data, loading, reloadData, modalId }) {
 const MashIngredientForm = ({ row, reloadData, modalId }) => {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState([]);
+    const { token } = useAuth();
   
     useEffect(() => {
       getData();
@@ -80,7 +82,7 @@ const MashIngredientForm = ({ row, reloadData, modalId }) => {
   
     const getData = async () => {
       try {
-        const res = await api.getRawMaterials()
+        const res = await api.getRawMaterials(token);
         setData(res.data.data);
         setLoading(false);
       } catch (e) {
