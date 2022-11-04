@@ -138,7 +138,7 @@ const processReports = async(req,res) => {
 
         const prevMonth = ttb.yearMonth.endsWith('12')? 
             (+ttb.yearMonth.split('-')[0] + 1) + '-01': 
-            ttb.yearMonth.slice(0,5) + (+ttb.yearMonth.slice(5) + 1).padStart(2, '0');
+            ttb.yearMonth.slice(0,5) + (+ttb.yearMonth.slice(5) + 1).toString().padStart(2, '0');
         const previousMonth = TTB.findOne({ yearMonth: prevMonth });
         if (previousMonth) {
             ttb.storageFirstOfMonth = previousMonth.storageEndOfMonth;
@@ -173,9 +173,9 @@ const processReports = async(req,res) => {
             if (['depositedInStorage',
                 'storageRecFromCustoms',
                 'storageReturned'].includes(log.description)){
-                storage.endOfMonth[log.spiritType]? 
-                    storage.endOfMonth[log.spiritType] += log.quantity:
-                    storage.endOfMonth[log.spiritType] = log.quantity;
+                ttb.storageEndOfMonth[log.spiritType]? 
+                    ttb.storageEndOfMonth[log.spiritType] += log.quantity:
+                    ttb.storageEndOfMonth[log.spiritType] = log.quantity;
                 if (ttb.storageTotal6[log.spiritType]){
                     ttb.storageTotal6[log.spiritType] += log.quantity;
                     ttb.storageTotal6.total += log.quantity;
@@ -184,9 +184,9 @@ const processReports = async(req,res) => {
                     ttb.storageTotal6.total = log.quantity;
                 }
             } else {
-                storage.endOfMonth[log.spiritType]? 
-                    storage.endOfMonth[log.spiritType] -= log.quantity:
-                    storage.endOfMonth[log.spiritType] = -log.quantity;
+                ttb.storageEndOfMonth[log.spiritType]? 
+                    ttb.storageEndOfMonth[log.spiritType] -= log.quantity:
+                    ttb.storageEndOfMonth[log.spiritType] = -log.quantity;
                 if (ttb.storageTotal24[log.spiritType]){
                     ttb.storageTotal24[log.spiritType] += log.quantity;
                     ttb.storageTotal24.total += log.quantity;
@@ -240,7 +240,7 @@ const processReports = async(req,res) => {
         //add in first of month & last of month and totals
 
         //-------------------PROCESSING-OPERATIONS-------------------------------
-        const ttbYear = ttb.yearMonth.slice(0,5);
+       /*  const ttbYear = ttb.yearMonth.slice(0,5);
         if (ttb.yearMonth.endsWith('03') ||
             ttb.yearMonth.endsWith('06') ||
             ttb.yearMonth.endsWith('09') ||
@@ -258,7 +258,7 @@ const processReports = async(req,res) => {
         const productionDue = exciseTax.reduce((sum, current) => sum + current.productionTaxPayment.total, 0);
         const storageDue = exciseTax.reduce((sum, current) => sum + current.storageTaxpaid.total, 0);
 
-        ttb.exciseTax = (processingDue + productionDue + storageDue) * 2.7;
+        ttb.exciseTax = (processingDue + productionDue + storageDue) * 2.7; */
 
         ttb.userId = req.user.id;
         console.log(ttb)

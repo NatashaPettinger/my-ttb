@@ -40,7 +40,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                         <input 
                             type="number"
                             step="0.1"
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                             {...register("quantity")}
                         />
                     </div>
@@ -50,7 +50,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                             className="block text-sm font-medium text-white">
                             Package Size ({row.uom}): </label>
                         <input 
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                             type="number"
                             step="0.1"
                             defaultValue={row.purchaseLog[0].packageSize}
@@ -63,7 +63,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                             className="block text-sm font-medium text-white">
                             Cost per Package (USD): </label>
                         <input 
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                             type="number"
                             step="0.01"
                             defaultValue={row.purchaseLog[0].costPerPackage}
@@ -76,7 +76,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                             className="block text-sm font-medium text-white">
                             Other Charges (USD): Freight, delivery, tax, etc. </label>
                         <input 
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                             type="number"
                             step="0.01"
                             {...register("extraCharges")}
@@ -88,7 +88,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                             className="block text-sm font-medium text-white">
                             Purchase Date: </label>
                         <input 
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                             type="date"
                             {...register("purchaseDate")}
                         />
@@ -99,7 +99,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                             className="block text-sm font-medium text-white">
                             Date Received: </label>
                         <input 
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                             type="date"
                             {...register("dateReceived")}
                         />
@@ -112,7 +112,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                     </div>
                     <div className="col-span-6">
                         <input 
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
                             type="text"
                             defaultValue={row.purchaseLog[0].vendor}
                             {...register("vendor")}
