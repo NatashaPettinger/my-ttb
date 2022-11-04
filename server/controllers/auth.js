@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../db/User');
 require('dotenv').config({path: '../config/.env'})
 
-const jwtSecret = process.env.jwtSecret;
+const jwtSecret = process.env.JWTSECRET;
 
 /**
  * @route   POST api/login
