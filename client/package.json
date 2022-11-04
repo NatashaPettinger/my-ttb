@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "npm run watch-css && react-scripts start",
-    "build": "npm run watch-css && react-scripts build",
+    "build": "npm run watch-css && CI=false && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch-css": "tailwindcss -i src/assets/tailwind.css -o src/assets/main.css"

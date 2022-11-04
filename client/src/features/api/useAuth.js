@@ -3,7 +3,8 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    //baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://my-ttb-production.up.railway.app',
 })
 
 const getToken = payload => api.post('/login', payload);

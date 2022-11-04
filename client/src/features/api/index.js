@@ -2,7 +2,8 @@ import axios from 'axios';
 import authHeader from "./authHeader";
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    //baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://my-ttb-production.up.railway.app',
 })
 
 // Auth requests
