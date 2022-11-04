@@ -24,7 +24,7 @@ const FermentDataForm = ({ row, reloadData }) => {
         <div className="collapse collapse-plus border border-base-300 bg-base-100 rounded-box mb-1"> 
             <input type="checkbox" /> 
             <div className="collapse-title text-xl font-medium">
-                <label className="block text-sm font-medium text-white">
+                <label className="block text-sm font-medium">
                     Ferment Data
                 </label>
             </div>
@@ -35,7 +35,7 @@ const FermentDataForm = ({ row, reloadData }) => {
                         <div className="col-span-2 sm:col-span-8">   
                             <label 
                                 htmlFor="temp"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     Stored Temperature (˚F): {distillData.temp?? 'No Data'}
                                     <br/> 
                                     New Temperature (˚F):
@@ -53,7 +53,7 @@ const FermentDataForm = ({ row, reloadData }) => {
                         <div className="col-span-2 sm:col-span-8">
                             <label 
                                 htmlFor="gravity"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     Specific Gravity: {distillData.gravity?? 'No Data'}
                                     <br/> 
                                     New Specific Gravity:
@@ -71,7 +71,7 @@ const FermentDataForm = ({ row, reloadData }) => {
                             <div className="col-span-2 sm:col-span-8">
                             <label 
                                 htmlFor="pH"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     pH: {distillData.pH?? 'No Data'}
                                     <br/> 
                                     New pH:
@@ -89,7 +89,7 @@ const FermentDataForm = ({ row, reloadData }) => {
                             <div className="col-span-2 md:col-span-8">
                             <label 
                                 htmlFor="notes"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     Notes: {distillData.notes?? 'No Data'}
                                     <br/> 
                                     New notes:

@@ -24,7 +24,7 @@ const Login = () => {
                         <div className="mt-3 mb-3">
                         <label 
                             htmlFor="email"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Email
                         </label>
                         <input 
@@ -35,7 +35,7 @@ const Login = () => {
                         <div className="mt-3 mb-3">
                         <label 
                             htmlFor="password"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Password
                         </label>
                         <input 

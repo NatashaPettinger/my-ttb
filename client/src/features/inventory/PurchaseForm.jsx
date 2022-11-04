@@ -35,7 +35,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                     <div className="col-span-6">
                         <label 
                             htmlFor="quantity"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Number of Packages:</label>
                         <input 
                             type="number"
@@ -47,7 +47,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                     <div className="col-span-6">
                         <label 
                             htmlFor="packageSize"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Package Size ({row.uom}): </label>
                         <input 
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
@@ -60,7 +60,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                     <div className="col-span-6">
                         <label 
                             htmlFor="costPerPackage"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Cost per Package (USD): </label>
                         <input 
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
@@ -73,7 +73,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                     <div className="col-span-6">
                         <label 
                             htmlFor="extraCharges"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Other Charges (USD): Freight, delivery, tax, etc. </label>
                         <input 
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
@@ -85,7 +85,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                     <div className="col-span-6">
                         <label 
                             htmlFor="purchaseDate"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Purchase Date: </label>
                         <input 
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
@@ -96,7 +96,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                     <div className="col-span-6">
                         <label 
                             htmlFor="dateReceived"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Date Received: </label>
                         <input 
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-base-500 focus:ring-base-500 sm:text-sm input bg-white"
@@ -107,7 +107,7 @@ const PurchaseForm = ({ row, reloadData }) => {
                     <div className="col-span-6">
                         <label 
                             htmlFor="vendor"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Vendor: </label>
                     </div>
                     <div className="col-span-6">

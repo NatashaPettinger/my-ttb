@@ -32,7 +32,7 @@ const Table = ({ columns, data, hiddenColumns = [], renderRowSubComponent, table
         <div className="flex-none">
           <ul className="menu menu-vertical lg:menu-horizontal p-0">
             {modal? (
-              modal.map(el => <li className="mb-2 lg:mt-0" key={el.modal}><label htmlFor={el.modal} className="btn modal-button mr-3">{el.modalText}</label></li>)
+              modal.map(el => <li className="mb-2 lg:mt-0 mr-3" key={el.modal}><label htmlFor={el.modal} className="btn text-white">{el.modalText}</label></li>)
             ): null}
             <div className="dropdown dropdown-hover">
               <label tabIndex={0} className="btn">Table Options<svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg></label>

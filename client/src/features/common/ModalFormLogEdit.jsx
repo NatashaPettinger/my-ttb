@@ -44,12 +44,12 @@ const Form = ({
                       <div className="col-span-6">
                         <label 
                             htmlFor="data" 
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Stored {label} {storedValue} <br/> New {label}
                         </label>
                         <label 
                             htmlFor="data" 
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             
                         </label>
                         {

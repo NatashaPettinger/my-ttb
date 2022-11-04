@@ -37,7 +37,7 @@ const FormElement = ({ row, stillKey, label, type, step = 0.1, min = 0, select, 
                 <div className="collapse collapse-plus border border-base-300 bg-base-100 rounded-box mb-1"> 
                     <input type="checkbox" /> 
                     <div className="collapse-title text-xl font-medium">
-                        <label className="block text-sm font-medium text-white"
+                        <label className="block text-sm font-medium"
                             htmlFor="data" >
                             {label}: {storedValue}
                         </label>
@@ -46,7 +46,7 @@ const FormElement = ({ row, stillKey, label, type, step = 0.1, min = 0, select, 
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <label 
                                 htmlFor="data" 
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                 Enter new value:
                             </label>
                             {

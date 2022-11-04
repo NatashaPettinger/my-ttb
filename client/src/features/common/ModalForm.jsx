@@ -39,7 +39,7 @@ const FormElement = ({ id, log, reloadData, formAction, buttonLabel, formEntries
                         <div className="col-span-6" key={entry.dbKey}>
                           <label 
                               htmlFor={entry.dbKey} 
-                              className="block text-sm font-medium text-white">
+                              className="block text-sm font-medium">
                               {entry.label}
                           </label>
                           {

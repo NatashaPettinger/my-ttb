@@ -33,7 +33,7 @@ const Register = () => {
                         <div className="mt-3 mb-3">
                         <label 
                             htmlFor="name"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Name
                         </label>
                         <input 
@@ -44,7 +44,7 @@ const Register = () => {
                         <div className="mt-3 mb-3">
                         <label 
                             htmlFor="email"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Email
                         </label>
                         <input 
@@ -55,7 +55,7 @@ const Register = () => {
                         <div className="mt-3 mb-3">
                         <label 
                             htmlFor="password"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Password
                         </label>
                         <input 
@@ -66,7 +66,7 @@ const Register = () => {
                         <div className="mt-3 mb-3">
                         <label 
                             htmlFor="confirmPassword"
-                            className="block text-sm font-medium text-white">
+                            className="block text-sm font-medium">
                             Confirm Password
                         </label>
                         <input 

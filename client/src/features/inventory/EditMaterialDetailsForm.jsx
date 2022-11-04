@@ -26,7 +26,7 @@ const EditMaterialDetailsForm = ({ row, reloadData }) => {
             <div className='width-1/2 sm:width-1/2'>
             <form className="grid grid-cols-4 gap-6" onSubmit={handleSubmit(onSubmit)}>
                 <div className="col-span-4 sm:col-span-1">
-                        <label className="block text-sm font-medium text-white" htmlFor="materialType">Material Type:</label>
+                        <label className="block text-sm font-medium" htmlFor="materialType">Material Type:</label>
                         <select 
                             className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" 
                             {...register("materialType")} 
@@ -42,14 +42,14 @@ const EditMaterialDetailsForm = ({ row, reloadData }) => {
                         </select>
                 </div>
                 <div className="col-span-4 sm:col-span-1">
-                        <label className="block text-sm font-medium text-white" htmlFor="name" >Material Name:</label>
+                        <label className="block text-sm font-medium" htmlFor="name" >Material Name:</label>
                         <input 
                             className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" 
                             {...register("name")}
                         />
                 </div>
                 <div className="col-span-4 sm:col-span-1">
-                        <label className="block text-sm font-medium text-white" htmlFor="uom">UOM:</label>
+                        <label className="block text-sm font-medium" htmlFor="uom">UOM:</label>
                         <select 
                             className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" 
                             {...register("uom")}
@@ -68,7 +68,7 @@ const EditMaterialDetailsForm = ({ row, reloadData }) => {
                         </select>
                 </div>
                 <div className="col-span-4 sm:col-span-1">
-                        <label className="block text-sm font-medium text-white" htmlFor="reorderQuantity">Reorder Quantity (UOM):</label>
+                        <label className="block text-sm font-medium" htmlFor="reorderQuantity">Reorder Quantity (UOM):</label>
                         <input 
                             className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" 
                             {...register("reorderQuantity")}

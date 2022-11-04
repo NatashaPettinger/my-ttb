@@ -26,7 +26,7 @@ const StillCutsFormEnd = ({ row, stillKey, label, reloadData }) => {
         <div className="collapse collapse-plus border border-base-300 bg-base-100 rounded-box mb-1"> 
             <input type="checkbox" /> 
             <div className="collapse-title text-xl font-medium">
-                <label className="block text-sm font-medium text-white">
+                <label className="block text-sm font-medium">
                     {label} Cuts
                 </label>
             </div>
@@ -37,7 +37,7 @@ const StillCutsFormEnd = ({ row, stillKey, label, reloadData }) => {
                         <div className="col-span-2 sm:col-span-8">   
                             <label 
                                 htmlFor="startTime"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     Stored {label} Start Time: {!distillData.startTime? 'No Data': new Date(distillData.startTime).toLocaleTimeString()}
                                     <br/> 
                                     New {label}:
@@ -53,7 +53,7 @@ const StillCutsFormEnd = ({ row, stillKey, label, reloadData }) => {
                         <div className="col-span-2 sm:col-span-8">
                             <label 
                                 htmlFor="numberOfRefluxingPlates"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     {label} # of Refluxing Plates: {distillData.numberOfRefluxingPlates ?? 'No Data'}
                                     <br/> 
                                     New {label} # of Refluxing Plates:
@@ -71,7 +71,7 @@ const StillCutsFormEnd = ({ row, stillKey, label, reloadData }) => {
                             <div className="col-span-2 sm:col-span-8">
                             <label 
                                 htmlFor="dephlegSetting"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     {label} Dephleg Setting: {distillData.dephlegSetting?? 'No Data'}
                                     <br/> 
                                     New {label} Dephleg Setting:
@@ -89,7 +89,7 @@ const StillCutsFormEnd = ({ row, stillKey, label, reloadData }) => {
                             <div className="col-span-2 md:col-span-8">
                             <label 
                                 htmlFor="headTemp"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     {label} Head Temp (˚F): {distillData.headTemp?? 'No Data'}
                                     <br/> 
                                     New {label} Head Temp (˚F):
@@ -105,7 +105,7 @@ const StillCutsFormEnd = ({ row, stillKey, label, reloadData }) => {
                             <div className="col-span-2 md:col-span-8">
                             <label 
                                 htmlFor="potTemp"
-                                className="block text-sm font-medium text-white">
+                                className="block text-sm font-medium">
                                     {label} Pot Temp (˚F): {distillData.potTemp?? 'No Data'}
                                     <br/> 
                                     New {label} Pot Temp (˚F):
