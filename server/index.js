@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(bodyParser.json())
 
-require('dotenv').config({path: 'config/.env'})
+require('dotenv').config()
 
 const rawMaterials = require('./routes/rawMaterials')
 const production = require('./routes/production')

@@ -4,7 +4,7 @@ const rawMaterials = require('../controllers/rawMaterials')
 const auth = require('../middleware/auth');
 
 
-router.get('/', rawMaterials.getRawMaterials)
+router.get('/', auth, rawMaterials.getRawMaterials)
 router.patch('/', auth, rawMaterials.receiveRawMaterials)
 router.patch('/quantityAdjust', auth, rawMaterials.quantityAdjust)
 router.patch('/edit', auth, rawMaterials.editRawMaterials)

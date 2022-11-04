@@ -3,7 +3,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 // User Model
 const User = require('../db/User');
-require('dotenv').config({path: '../config/.env'})
+require('dotenv').config()
 
 const jwtSecret = process.env.JWTSECRET;
 
