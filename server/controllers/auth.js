@@ -66,31 +66,23 @@ const signup = async (req, res) => {
     return res.status(400).json({ msg: 'Passwords do not match' });
   }
   try {
-    console.log(1)
     const user = await User.findOne({ email });
     if (user) throw Error('User already exists');
-    console.log(2)
     const salt = await bcrypt.genSalt(10);
     if (!salt) throw Error('Something went wrong with bcrypt');
-    console.log(3)
     const hash = await bcrypt.hash(password, salt);
     if (!hash) throw Error('Something went wrong hashing the password');
-    console.log(4)
     const newUser = new User({
       name,
       email,
       password: hash
     });
-    console.log(5)
     const savedUser = await newUser.save();
 
-    console.log(5)
     if (!savedUser) throw Error('Something went wrong saving the user');
-    console.log(6)
     const token = jwt.sign({ id: savedUser._id }, jwtSecret, {
       expiresIn: 3600000
     });
-    console.log(7)
     res.status(200).json({
       token,
       user: {
